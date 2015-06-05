@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Notes>
+  <Note id="1">
+    <CDate>12-12-21</CDate>
+    <Content>发布iOSBook0</Content>
+    <UserID>tony</UserID>
+  </Note>
+  <Note id="2">
+    <CDate>12-12-22</CDate>
+    <Content>发布iOSBook1</Content>
+    <UserID>tony</UserID>
+  </Note>
+  <Note id="3">
+    <CDate>12-12-23</CDate>
+    <Content>发布iOSBook2</Content>
+    <UserID>tony</UserID>
+  </Note>
+  <Note id="4">
+    <CDate>12-12-24</CDate>
+    <Content>发布iOSBook3</Content>
+    <UserID>tony</UserID>
+  </Note>
+  <Note id="5">
+    <CDate>12-12-25</CDate>
+    <Content>发布iOSBook4</Content>
+    <UserID>tony</UserID>
+  </Note>
+</Notes>
