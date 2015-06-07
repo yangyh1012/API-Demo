@@ -1163,7 +1163,53 @@ static ObjectTest *sharedManager = nil;
      */
 }
 
+#pragma mark - bridge 桥接
+
+- (void)bridgeTest {
+    
+    /**
+     *  http://bit.ly/j65Ceo 可桥接的类型
+     *
+     */
+    
+    /**
+     *  __bridge_transfer 将CFURLCreateStringByAddingPercentEscapes的内存所有权交给ARC
+     *
+     */
+    NSString *test = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(
+                                                                                           NULL,
+                                                                                           (__bridge CFStringRef)@"112345",
+                                                                                           NULL,
+                                                                                           CFSTR("!*'();:@&=+$,/?%#[]"),
+                                                                                           CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+    
+    //或者
+    
+    NSString *test1 = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                              NULL,
+                                                              (__bridge CFStringRef)@"112345",
+                                                              NULL,
+                                                              CFSTR("!*'();:@&=+$,/?%#[]"),
+                                                              CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)));
+    
+    NSLog(@"%@,%@",test,test1);
+    
+    
+    
+    NSString *s1 = [[NSString alloc] initWithFormat:@"Hello, %@!", @"111"];
+    CFStringRef s2 = (__bridge_retained CFStringRef)s1;//夺取ARC对于s1的所有权。使ARC不用释放s1
+    CFRelease(s2);
+    
+    //或者
+    
+    CFStringRef s3 = CFBridgingRetain(s1);
+    CFRelease(s3);
+}
+
+
+
 #pragma mark -
+
 
 
 

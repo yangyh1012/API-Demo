@@ -8,6 +8,7 @@
 
 #import "DataSaveViewController.h"
 #import "sqlite3.h"
+#import <AudioToolbox/AudioServices.h>
 
 /*说明：
  
@@ -500,7 +501,7 @@
      */
 }
 
-#pragma mark - 音频
+#pragma mark - 音频 声音 声
 
 - (void)musicTest {
     
@@ -520,6 +521,32 @@
      
      *
      */
+}
+
+- (void)musicTest2 {
+    
+    /**
+     *  音效的调用 声效 音效
+     */
+    NSString *filename = @"";
+    NSURL *fileURL = [[NSBundle mainBundle] URLForResource:filename withExtension:nil];
+    
+    SystemSoundID theSoundID;
+    OSStatus error = AudioServicesCreateSystemSoundID((__bridge CFURLRef)fileURL, &theSoundID);
+    if (error == kAudioServicesNoError) {
+        
+        
+    }
+    
+    /**
+     *  播放声效
+     */
+    AudioServicesPlaySystemSound(theSoundID);
+    
+    /**
+     *  释放资源，清理声音对象
+     */
+    AudioServicesDisposeSystemSoundID(theSoundID);
 }
 
 

@@ -18,6 +18,7 @@
     /**
      Edit->Refactor->Rename：它不仅能够重命名类，还能做一些诸如重命名相应源文件之类的妙事。（需要先选中一个类名，比如Car。）或者，右击代码框，点击Refactor，点击里面的Rename，可以替换一切相关文件。
      
+     Edit->Convert->To Objective-C ARC：代码的ARC自动转化工具。
      */
 }
 
