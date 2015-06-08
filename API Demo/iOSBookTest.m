@@ -181,6 +181,29 @@
      */
 }
 
+/**
+ *  iOS 5 By Tutorials中文版
+ */
+- (void)iOS5ByTutorials {
+    
+    /**
+     *  
+     3.3. Cocos2D and Box2D
+     3.4. 改进 Breakout
+     3.5. 其他 C++ 说明
+     3.6. 创建你自己的静态库
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     */
+}
+
 #pragma mark - TODO
 
 /*说明：工程架构，以后再补充

@@ -28,14 +28,14 @@
 
      */
     NSBundle *bundle = [NSBundle mainBundle];
-    DLog(@"%@",bundle);
+    NSLog(@"%@",bundle);//DLog
     
     /*说明：
      documents文件目录
      
      */
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    DLog(@"%@",paths);
+    NSLog(@"%@",paths);//DLog
     
     
 

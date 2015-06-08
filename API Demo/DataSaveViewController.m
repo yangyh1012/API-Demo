@@ -549,6 +549,35 @@
     AudioServicesDisposeSystemSoundID(theSoundID);
 }
 
+#pragma mark - 图片 处理  图片处理
+
+- (void)imageTest {
+    
+    /**
+     *  截图 截屏，其中self.view是这个图的范围
+     */
+    UIGraphicsBeginImageContext(self.view.bounds.size);
+    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    /**
+     *  将图片写入文档保存
+     */
+    NSData *data = UIImagePNGRepresentation(image);
+    if (data != nil)
+    {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *filename = [[paths lastObject] stringByAppendingPathComponent:@"Cool.png"];
+        
+        NSError *error;
+        if (![data writeToFile:filename options:NSDataWritingAtomic error:&error])
+        {
+            NSLog(@"Error: %@", error);
+        }
+    }
+}
+
 
 #pragma mark -
 

@@ -1208,9 +1208,35 @@ static ObjectTest *sharedManager = nil;
 
 
 
-#pragma mark -
+#pragma mark - Block
 
 
+- (void)blockTest {
+    
+    /**
+     *  __weak使得block不保留self，避免self被引用。造成循环引用。
+     */
+    __weak id weakSelf = self;
+    
+    //self.animatedView.block = ^(){
+    void (^block)(void) = ^(){
+        
+        /**
+         *  当自身被dealloc时，这个方法中的self也会变成nil。但是，
+         *  如果这个block被异步调用，self变成nil之后，这段代码还在运行，
+         *  就可能调用了self的一些可能导致崩溃的方法。
+         *  所以，要加入这句话。
+         */
+        id strongSelf = weakSelf;
+        
+        if ( strongSelf != nil ){
+            
+            // do stuff with strongSelf
+        }
+    };
+    
+    block();
+}
 
 
 
