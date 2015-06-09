@@ -116,7 +116,22 @@
     return sectionHeaderView;
 }
 
-#pragma mark - 
+#pragma mark - Table view delegate
+
+/**
+ *  点击详细按钮时触发的事件
+ *
+ *  @param tableView 表格
+ *  @param indexPath 索引
+ */
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    
+    /**
+     *  手动触发prepareForSegue方法
+     */
+    [self performSegueWithIdentifier:@"EditPlayer" sender:indexPath];
+}
+
 
 /*
 // Override to support conditional editing of the table view.

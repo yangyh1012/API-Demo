@@ -549,9 +549,14 @@
     AudioServicesDisposeSystemSoundID(theSoundID);
 }
 
-#pragma mark - 图片 处理  图片处理
+#pragma mark - 图片 处理  图片处理 图片、图像视图
 
 - (void)imageTest {
+    
+    /**
+     *  背景图
+     */
+    [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_sand"]]];
     
     /**
      *  截图 截屏，其中self.view是这个图的范围
@@ -578,6 +583,39 @@
     }
 }
 
+- (void)createImageView {
+    
+    /*说明：
+     图片拉伸方法 iOS 5 伸缩
+     
+     */
+    UIImage *image1 = [[UIImage imageNamed:@"test"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)];
+    
+    /*说明：
+     图片拉伸方法 iOS 6
+     
+     UIImageResizingModeStretch：拉伸模式，通过拉伸UIEdgeInsets指定的矩形区域来填充图片
+     UIImageResizingModeTile：平铺模式，通过重复显示UIEdgeInsets指定的矩形区域来填充图片
+     
+     说明：
+     http://blog.csdn.net/q199109106q/article/details/8615661
+     
+     */
+    UIImage *image2 = [[UIImage imageNamed:@"test"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16) resizingMode:UIImageResizingModeStretch];
+    
+    NSLog(@"%@ %@",image1,image2);
+    
+    /**
+     *
+     + imageNamed:方法会在内存中建立缓存，这些缓存直到应用停止才清除。
+     如果是贯穿整个应用的图片（如图标、logo等），推荐使用+ imageNamed:创建；如果是仅使用一次的图片，
+     推荐使用下面的语句：
+     
+     */
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"animal-2" ofType:@"png"];
+    UIImage *image = [[UIImage alloc] initWithContentsOfFile:path];
+    NSLog(@"%@ %@",image,image2);
+}
 
 #pragma mark -
 

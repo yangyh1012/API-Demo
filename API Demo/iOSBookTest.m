@@ -188,13 +188,19 @@
     
     /**
      *  
-     3.3. Cocos2D and Box2D
-     3.4. 改进 Breakout
-     3.5. 其他 C++ 说明
-     3.6. 创建你自己的静态库
+     （未看）3.3. Cocos2D and Box2D
+     （未看）3.4. 改进 Breakout
+     （未看）3.5. 其他 C++ 说明
+     （未看）3.6. 创建你自己的静态库
      
+     （未看）5.4. Storyboards 如何在iPad项目中使用（关于UISplitViewController）
+     （未看）5.5.如何在一个应用中使用多个Storyboards文件
      
+     （未看）第 6 章 初级iCloud
+     （未看）第 7 章 中级iCloud
      
+     （未看）第 8 章 初级OpenGL ES 2.0
+     （未看）第 9 章 中级OpenGL ES 2.0
      
      
      

@@ -135,14 +135,14 @@
     
 }
 
-#pragma mark - 单元格视图
+#pragma mark - 单元格视图 UITableViewCell
 
 - (void)createTableViewCell {
     
     
 }
 
-#pragma mark - 滚动视图
+#pragma mark - 滚动视图 UIScrollView
 
 - (void)createScrollView {
     
@@ -172,6 +172,7 @@
      self.scrollView.contentOffset = CGPointMake(0, 110);
      
      */
+    
 }
 
 /*说明：UIScrollViewDelegate
@@ -184,14 +185,14 @@
 }
 
 
-#pragma mark - 表格视图
+#pragma mark - 表格视图 UITableView
 
 - (void)createTableView {
     
     
 }
 
-#pragma mark - 文本视图
+#pragma mark - 文本视图 UITextView
 
 - (void)createTextView {
     
@@ -217,14 +218,14 @@
     return YES;
 }
 
-#pragma mark - 集合视图
+#pragma mark - 集合视图 UICollectionView
 
 - (void)createCollectionView {
     
     
 }
 
-#pragma mark - 普通选择器
+#pragma mark - 普通选择器 UIPickerView
 
 - (void)createPickerView {
     
@@ -295,7 +296,7 @@
     }
 }
 
-#pragma mark - 进度条
+#pragma mark - 进度条 UIProgressView
 
 - (void)createProgressView {
     
@@ -304,7 +305,7 @@
     NSLog(@"%.f",progress);
 }
 
-#pragma mark - 活动指示器
+#pragma mark - 活动指示器 UIActivityIndicatorView
 
 - (void)createActivityIndicatorView {
     
@@ -376,64 +377,28 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
-#pragma mark - 图片、图像视图
-
-- (void)createImageView {
-    
-    /*说明：
-     图片拉伸方法 iOS 5
-     
-     */
-    UIImage *image1 = [[UIImage imageNamed:@"test"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)];
-    
-    /*说明：
-     图片拉伸方法 iOS 6
-     
-     UIImageResizingModeStretch：拉伸模式，通过拉伸UIEdgeInsets指定的矩形区域来填充图片
-     UIImageResizingModeTile：平铺模式，通过重复显示UIEdgeInsets指定的矩形区域来填充图片
-     
-     说明：
-     http://blog.csdn.net/q199109106q/article/details/8615661
-     
-     */
-    UIImage *image2 = [[UIImage imageNamed:@"test"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16) resizingMode:UIImageResizingModeStretch];
-    
-    NSLog(@"%@ %@",image1,image2);
-    
-    /**
-     *  
-     + imageNamed:方法会在内存中建立缓存，这些缓存直到应用停止才清除。
-     如果是贯穿整个应用的图片（如图标、logo等），推荐使用+ imageNamed:创建；如果是仅使用一次的图片，
-     推荐使用下面的语句：
-     
-     */
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"animal-2" ofType:@"png"];
-    UIImage *image = [[UIImage alloc] initWithContentsOfFile:path];
-    NSLog(@"%@ %@",image,image2);
-}
-
-#pragma mark -
+#pragma mark - 选项栏 UITabBar
 
 - (void)createTabBar {
     
     
 }
 
-#pragma mark - 工具栏
+#pragma mark - 工具栏 UIToolbar
 
 - (void)createToolBar {
     
     
 }
 
-#pragma mark - 控制视图
+#pragma mark - 控制视图 UIControl
 
 - (void)createControl {
     
     
 }
 
-#pragma mark - 按钮
+#pragma mark - 按钮 UIButton
 
 - (void)createButton {
     
@@ -463,7 +428,7 @@
     [self.view addSubview:button];
 }
 
-#pragma mark - 时间选择器
+#pragma mark - 时间选择器 UIDatePicker
 
 - (void)createDatePicker {
     
@@ -476,6 +441,7 @@
      Timer。在倒计时定时器模式下倒计时的秒数。
      
      */
+    
 }
 
 - (IBAction)onclick:(id)sender {
@@ -495,7 +461,7 @@
     NSLog(@"the date formate is: %@", [dateFormatter stringFromDate:theDate]);
 }
 
-#pragma mark - 分页控制
+#pragma mark - 分页控制 UIPageControl
 
 - (void)createPageControl {
     
@@ -503,9 +469,9 @@
     pageControl.currentPage = 1;
 }
 
-#pragma mark - 分段控件
+#pragma mark - 分段控件 UISegmentedControl
 
-/*说明：分段控件
+/*说明：分段控件 UISegmentedControl
  
  */
 - (void)createSegmentedControl {
@@ -513,7 +479,7 @@
     
 }
 
-#pragma mark - 文本域
+#pragma mark - 文本域 UITextField
 
 - (void)createTextField {
     
@@ -557,7 +523,7 @@
     return YES;
 }
 
-#pragma mark - 滑块
+#pragma mark - 滑块 UISlider
 
 /*说明：滑块控件
  
@@ -577,7 +543,7 @@
 
 #pragma mark - 开关
 
-/*说明：开关控件
+/*说明：开关控件 UISwitch
  
  */
 - (void)createSwitch {
@@ -592,14 +558,28 @@
     [witchSwitch setOn:setting animated:YES];
 }
 
-#pragma mark - 导航栏
+#pragma mark - 导航栏 UINavigationBar
 
 - (void)createNavigationBar {
+    
+    /**
+     *  自定义导航栏的背景图和字体
+     */
+    UIImage *gradientImage44 = [[UIImage imageNamed:@"surf_gradient_textured_44"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    UIImage *gradientImage32 = [[UIImage imageNamed:@"surf_gradient_textured_32"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    [[UINavigationBar appearance] setBackgroundImage:gradientImage44 forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBackgroundImage:gradientImage32 forBarMetrics:UIBarMetricsCompact];
+    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0], NSForegroundColorAttributeName, [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8], NSShadowAttributeName, [NSValue valueWithUIOffset:UIOffsetMake(0, -1)], NSShadowAttributeName, [UIFont fontWithName:@"Arial-Bold" size:0.0], NSFontAttributeName, nil]];
+}
+
+#pragma mark - 导航栏按钮 UIBarButtonItem
+
+- (void)createBarButtonItem {
     
     
 }
 
-#pragma mark - 操作表
+#pragma mark - 操作表 UIActionSheet
 
 - (void)createActionSheet {
     
@@ -646,7 +626,7 @@
     NSLog(@"buttonIndex = %li",(long)buttonIndex);
 }
 
-#pragma mark - 警告框
+#pragma mark - 警告框 UIAlertView
 
 - (void)createAlertView {
     
@@ -693,7 +673,7 @@
     NSLog(@"buttonIndex = %li",(long)buttonIndex);
 }
 
-#pragma mark - 网页
+#pragma mark - 网页 UIWebView
 
 - (void)createWebView {
     
@@ -716,6 +696,7 @@
      使用JavaScript调用本地代码
      
      */
+    
 }
 
 /*说明：加载本地资源文件index.html，并将其显示在WebView上
@@ -785,7 +766,7 @@
     NSLog(@"%@",[webView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"]);
 }
 
-#pragma mark - 键盘
+#pragma mark - 键盘 UIKeyboard
 
 - (void)createkeyboard {
     

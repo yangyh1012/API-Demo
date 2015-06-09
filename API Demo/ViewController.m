@@ -16,6 +16,16 @@
 
 @implementation ViewController
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    if (self = [super initWithCoder:aDecoder]) {
+        
+        NSLog(@"init ViewController");
+    }
+    
+    return self;
+}
+
 /*说明：
  
  */
@@ -53,8 +63,20 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
+    NSLog(@"dealloc ViewController");
 }
 
-
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"viewcontrollerSegue"]) {
+        
+        //UINavigationController *navigationController = segue.destinationViewController;
+        //ViewController *viewController = [[navigationController viewControllers] objectAtIndex:0];
+        //NSLog(@"%@",viewController);
+    }
+}
 
 @end
