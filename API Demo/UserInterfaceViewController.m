@@ -138,8 +138,29 @@
 #pragma mark - 单元格视图 UITableViewCell
 
 - (void)createTableViewCell {
+
+    UITableViewCell *cell = [[UITableViewCell alloc] init];
     
+    /**
+     *  为cell设置背景图片，以及选中时的背景图片
+     */
+    CGRect cellRect = [cell frame];
+    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:cellRect];
+    UIImage *background = [UIImage imageNamed:@"table_cell_single.png"];
+    background = [background resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 43.0, 0.0, 64.0)];
+    [backgroundView setImage:background];
+    [cell setBackgroundView:backgroundView];
     
+    UIImageView *selectedBackgroundView = [[UIImageView alloc] initWithFrame:cellRect];
+    UIImage *selectBackground = [UIImage imageNamed:@"table_cell_single_sel.png"];
+    selectBackground = [selectBackground resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 43.0, 0.0, 64.0)];
+    [selectedBackgroundView setImage:selectBackground];
+    [cell setSelectedBackgroundView:selectedBackgroundView];
+    
+    /**
+     *  去掉cell的背景颜色
+     */
+    [cell setBackgroundColor:[UIColor clearColor]];
 }
 
 #pragma mark - 滚动视图 UIScrollView
@@ -381,7 +402,17 @@
 
 - (void)createTabBar {
     
+    UIImage *tabBackground = [[UIImage imageNamed:@"tab_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     
+    /**
+     *  设置背景图片，自定义选项栏的图片，放在didFinishLaunchingWithOptions这个方法中
+     */
+    [[UITabBar appearance] setBackgroundImage:tabBackground];
+    
+    /**
+     *  设置选中时的背景图片，自定义选项栏的图片，放在didFinishLaunchingWithOptions这个方法中
+     */
+    [[UITabBar appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"tab_select_indicator"]];
 }
 
 #pragma mark - 工具栏 UIToolbar
@@ -476,7 +507,27 @@
  */
 - (void)createSegmentedControl {
     
+    UIImage *segmentSelected = [[UIImage imageNamed:@"segcontrol_sel.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 15, 0, 15)];
+    UIImage *segmentUnselected = [[UIImage imageNamed:@"segcontrol_uns.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 15, 0, 15)];
+    UIImage *segmentSelectedUnselected = [UIImage imageNamed:@"segcontrol_sel-uns.png"];
+    UIImage *segUnselectedSelected = [UIImage imageNamed:@"segcontrol_uns-sel.png"];
+    UIImage *segmentUnselectedUnselected = [UIImage imageNamed:@"segcontrol_uns-uns.png"];
     
+    /**
+     *  设置未选中状态和选中状态的背景图片，自定义分段控件，放在didFinishLaunchingWithOptions这个方法中
+     */
+    [[UISegmentedControl appearance] setBackgroundImage:segmentUnselected forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UISegmentedControl appearance] setBackgroundImage:segmentSelected forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+    
+    /**
+     *  通过左右按钮的状态设置分割线的图片，自定义分段控件，放在didFinishLaunchingWithOptions这个方法中
+     */
+    [[UISegmentedControl appearance] setDividerImage:segmentUnselectedUnselected forLeftSegmentState:UIControlStateNormal
+                                   rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UISegmentedControl appearance] setDividerImage:segmentSelectedUnselected forLeftSegmentState:UIControlStateSelected
+                                   rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UISegmentedControl appearance] setDividerImage:segUnselectedSelected forLeftSegmentState:UIControlStateNormal
+                                   rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
 }
 
 #pragma mark - 文本域 UITextField
@@ -530,7 +581,24 @@
  */
 - (void)createSlider {
     
+    UIImage *minImage = [[UIImage imageNamed:@"slider_minimum.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 0)];
+    UIImage *maxImage = [[UIImage imageNamed:@"slider_maximum.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 5)];
+    UIImage *thumbImage = [UIImage imageNamed:@"thumb.png"];
     
+    /**
+     *  滑块还没滑过的背景图，自定义滑块，放在didFinishLaunchingWithOptions这个方法中
+     */
+    [[UISlider appearance] setMaximumTrackImage:maxImage forState:UIControlStateNormal];
+    
+    /**
+     *  滑块滑过的部分的背景图，自定义滑块，放在didFinishLaunchingWithOptions这个方法中
+     */
+    [[UISlider appearance] setMinimumTrackImage:minImage forState:UIControlStateNormal];
+    
+    /**
+     *  滑块的图片，自定义滑块，放在didFinishLaunchingWithOptions这个方法中
+     */
+    [[UISlider appearance] setThumbImage:thumbImage forState:UIControlStateNormal];
 }
 
 - (IBAction)sliderValueChange:(id)sender {
@@ -548,14 +616,19 @@
  */
 - (void)createSwitch {
     
+    UISwitch *switchSwitch = [[UISwitch alloc] init];
     
+    /**
+     *  设置开关的背景颜色
+     */
+    [switchSwitch setOnTintColor:[UIColor colorWithRed:0 green:175.0/255.0 blue:176.0/255.0 alpha:1.0]];
 }
 
 - (IBAction)valueChanged:(id)sender {
     
-    UISwitch *witchSwitch = (UISwitch *)sender;
-    BOOL setting = witchSwitch.isOn;
-    [witchSwitch setOn:setting animated:YES];
+    UISwitch *switchSwitch = (UISwitch *)sender;
+    BOOL setting = switchSwitch.isOn;
+    [switchSwitch setOn:setting animated:YES];
 }
 
 #pragma mark - 导航栏 UINavigationBar
@@ -563,7 +636,7 @@
 - (void)createNavigationBar {
     
     /**
-     *  自定义导航栏的背景图和字体
+     *  自定义导航栏的背景图和字体，放在didFinishLaunchingWithOptions这个方法中
      */
     UIImage *gradientImage44 = [[UIImage imageNamed:@"surf_gradient_textured_44"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     UIImage *gradientImage32 = [[UIImage imageNamed:@"surf_gradient_textured_32"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
@@ -576,7 +649,33 @@
 
 - (void)createBarButtonItem {
     
+    /**
+     *  自定义UIBarButtonItem的背景图和字体，放在didFinishLaunchingWithOptions这个方法中
+     */
+    UIImage *button30 = [[UIImage imageNamed:@"button_textured_30"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
+    UIImage *button24 = [[UIImage imageNamed:@"button_textured_24"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
+    [[UIBarButtonItem appearance] setBackgroundImage:button30 forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackgroundImage:button24 forState:UIControlStateNormal barMetrics:UIBarMetricsCompact];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:220.0/255.0 green:104.0/255.0 blue:1.0/255.0 alpha:1.0], NSForegroundColorAttributeName, [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], NSShadowAttributeName, [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], NSShadowAttributeName, [UIFont fontWithName:@"AmericanTypewriter" size:0.0], NSFontAttributeName, nil] forState:UIControlStateNormal];
     
+    /**
+     *  setBackButtonBackgroundImage
+     *  自定义返回按钮的样式，放在didFinishLaunchingWithOptions这个方法中
+     */
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:button30 forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:button24 forState:UIControlStateNormal barMetrics:UIBarMetricsCompact];
+}
+
+#pragma mark - navigationItem
+
+- (void)createnavigationItem {
+ 
+    /**
+     
+     设置导航栏标题的图片，导航栏自定义标题图片
+     
+     */
+    [[self navigationItem] setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]]];
 }
 
 #pragma mark - 操作表 UIActionSheet
@@ -871,6 +970,20 @@
         if ([object isKindOfClass:[UIView class]])
             view = (UIView *)object;
     }
+}
+
+- (void)nibTest {
+    
+    /**
+     *  创建CustomCell类，并继承于UITableViewCell
+     */
+//    NSBundle *classBundle = [NSBundle bundleForClass:[CustomCell class]];
+    
+    /**
+     *  将CustomCell类和UITableView取得联系
+     */
+//    UINib *topNib = [UINib nibWithNibName:REUSE_ID_TOP bundle:classBundle];
+//    [[self tableView] registerNib:topNib forCellReuseIdentifier:REUSE_ID_TOP];
 }
 
 #pragma mark -

@@ -32,6 +32,16 @@
      将View Controller属性中的adjust scroll view insets 去掉勾选。
      
      */
+    
+    /**
+     *  去掉分割线
+     */
+    [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
+    /**
+     *  添加背景图片
+     */
+    [[self tableView] setBackgroundView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_sand.png"]]];
 }
 
 - (void)didReceiveMemoryWarning {

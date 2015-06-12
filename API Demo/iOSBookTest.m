@@ -202,10 +202,27 @@
      （未看）第 8 章 初级OpenGL ES 2.0
      （未看）第 9 章 中级OpenGL ES 2.0
      
+     （未看）10.9. 自定义UITextField、定制UITextField
+     （未看）11.9. 定制弹出框
      
+     （未看）第 12 章 初级Twitter
+     （未看）第 13 章 中级Twitter
+     （未看）第 14 章 初级Newsstand
+     （未看）第 15 章 中级Newsstand
+     （未看）第 16 章 初级UIPageViewController
+     （未看）第 17 章 中级UIPageViewController
+     （未看）第 18 章 初级回合制游戏
+     （未看）第 19 章 中级回合制游戏
      
+     （未看）第 20 章 初级Core Image（1、滤镜 2、从相簿获取图片 3、保存到相簿）
+     （未看）第 21 章 中级Core Image（1、混合滤镜 3、人脸检测）
      
-     
+     （未看）第 25 章 使用iOS字典（字典）
+     （未看）第 26 章 新的AddressBook APIs（通讯录）
+     （未看）第 27 章 新的LocationAPIs（定位）
+     （未看）第 28 章 新的Game Center APIs（游戏中心）
+     （未看）第 29 章 新的CalendarAPIs（日历）
+     （未看）第 30 章 新的Linguistic TaggerAPIs（语义识别）
      
      */
 }

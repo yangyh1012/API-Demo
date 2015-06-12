@@ -731,17 +731,69 @@ static ObjectTest *sharedManager = nil;
     NSString* path = [[NSBundle mainBundle] pathForResource:@"jsonTestData" ofType:@"json"];
     NSData *jsonData = [[NSData alloc] initWithContentsOfFile:path];
     NSError *error;
-    id jsonObj = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                 options:NSJSONReadingMutableContainers
-                                                   error:&error];
-    
-    if (!jsonObj || error) {
+    if (jsonData) {
         
-        NSLog(@"JSON解码失败");
+        id jsonObj = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                     options:NSJSONReadingMutableContainers
+                                                       error:&error];
+        
+        if (!jsonObj || error) {
+            
+            NSLog(@"JSON解码失败");
+        }
+        NSArray *listData = [jsonObj objectForKey:@"Record"];
+        
+        NSLog(@"%@",listData);
     }
-    NSArray *listData = [jsonObj objectForKey:@"Record"];
     
-    NSLog(@"%@",listData);
+    /**
+     *  生成Json Data
+     */
+    NSDictionary *loan = @{@"name":@"yangyh",@"location":@{@"country":@"America"},@"number":[NSNumber numberWithFloat:1.0f]};
+    NSDictionary* info = @{@"who": loan[@"name"],
+                           @"where": loan[@"location"][@"country"],
+                           @"what": loan[@"number"]};
+    //convert object to data
+    NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:info options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *text = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"%@",text);
+}
+
+/**
+ *  定义一个全局队列
+ */
+#define kBgQueue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+
+/**
+ *  定义一个主线程
+ */
+#define kMainQueue dispatch_get_main_queue()
+
+- (void)jsonBlockTest {
+    
+    dispatch_async(kBgQueue, ^{
+        
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.baidu.com"]];
+        
+        dispatch_async(kMainQueue, ^{
+            
+            if (data) {
+                
+                NSError* error;
+                NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data //1
+                                                                     options:kNilOptions
+                                                                       error:&error];
+                if (!json || error) {
+                    
+                    NSLog(@"JSON解码失败");
+                }
+                
+                NSArray* latestLoans = json[@"loans"]; //2
+                NSLog(@"loans: %@", latestLoans);
+            }
+        });
+    });
 }
 
 #pragma mark - request请求

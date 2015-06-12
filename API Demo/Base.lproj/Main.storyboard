@@ -20,7 +20,7 @@
                     <navigationItem key="navigationItem" id="P1v-qM-dgL">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="AeQ-ML-sjw">
                             <connections>
-                                <segue destination="aN8-Io-pYr" kind="presentation" identifier="viewcontrollerSegue" id="o56-id-15u"/>
+                                <segue destination="pz1-dE-bG2" kind="presentation" id="J9N-c1-qXZ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -31,23 +31,30 @@
             <point key="canvasLocation" x="768" y="204"/>
         </scene>
         <!--View Controller-->
-        <scene sceneID="TPO-WO-eAZ">
+        <scene sceneID="Zax-6P-JiV">
             <objects>
-                <viewController id="aN8-Io-pYr" sceneMemberID="viewController">
+                <viewController id="pz1-dE-bG2" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Wll-2B-rPg"/>
-                        <viewControllerLayoutGuide type="bottom" id="cVt-9s-UeU"/>
+                        <viewControllerLayoutGuide type="top" id="Jea-Fk-5Ix"/>
+                        <viewControllerLayoutGuide type="bottom" id="XcK-Zc-8Fm"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="HTF-cE-gew">
+                    <view key="view" contentMode="scaleToFill" id="kse-fF-aS1">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GUT-Vk-EDY">
+                                <rect key="frame" x="112" y="128" width="377" height="344"/>
+                                <connections>
+                                    <segue destination="QbS-ob-cVG" kind="embed" id="KPS-GB-i42"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <gestureRecognizers/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uV4-ve-YwW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gDv-Lk-tXM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1543" y="204"/>
+            <point key="canvasLocation" x="1532" y="204"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hNa-7h-5aO">
@@ -66,6 +73,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Dq-Gf-GZ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-44" y="204"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="3vL-lp-2hv">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="QbS-ob-cVG" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Azx-Av-5RF"/>
+                        <viewControllerLayoutGuide type="bottom" id="sfS-MX-zXl"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="fhg-la-ALm">
+                        <rect key="frame" x="0.0" y="0.0" width="377" height="344"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Iaq-xc-Rfu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
 </document>
