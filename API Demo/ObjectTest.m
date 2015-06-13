@@ -73,212 +73,6 @@ static ObjectTest *sharedManager = nil;
  
  */
 
-#pragma mark - FoundationKit
-
-- (void)foundationTest {
-    
-    /**
-     *  
-     几何数据类型：
-     
-     NSRange、NSPoint、NSSize、NSRect
-     *
-     */
-    
-    NSRange range1;
-    range1.location = 17;
-    range1.length = 4;
-    NSRange range2 = { 17 , 4 };
-    NSRange range3 = NSMakeRange( 17 , 4 );
-    NSLog(@"%d %d",range2.length,range3.length);
-    
-    /**
-     *  
-     字符串：
-     
-     NSString。
-     stringWithFormat：格式化字符串。
-     length：字符串的length方法获取字符串长度。
-     isEqualToString：判断字符串相等。
-     compare：字符串比较。
-     hasPrefix：字符串以什么字符串开头。
-     hasSuffix：字符串以什么字符串结尾。
-     rangeOfString：包含某个字符串
-     *
-     */
-    
-    NSString *thing1 = @"name";
-    NSString *thing2 = @"NAME";
-    if ([thing1 compare:thing2 options:NSCaseInsensitiveSearch
-         | NSNumericSearch] == NSOrderedSame) {
-        
-        NSLog(@"They are match!");
-        
-    }
-    
-    /**
-     *  
-     可变字符串：
-     
-     NSMutableString。
-     stringWithCapacity：字符串的初始容量。
-     appendString：末尾添加字符串。
-     appendFormat：末尾添加格式化的字符串。
-     deleteCharactersInRange：删除某个字符串。
-     *
-     */
-    
-    NSMutableString *friends;
-    friends = [NSMutableString stringWithCapacity:50];
-    [friends appendString:@"James BethLynn jack Evan"];
-    
-    NSRange jackRange;
-    jackRange = [friends rangeOfString:@"jack"];
-    jackRange.length++;
-    
-    [friends deleteCharactersInRange:jackRange];
-    
-    /**
-     *  
-     数组：
-     
-     NSArray
-     arrayWithObjects：创建包含多个对象的数组。
-     count：数组所包含的对象个数。
-     objectAtIndex：数组指定位置的对象。
-     componentsSeparatedByString：分割数组。
-     componentsJoineByString：组合数组。
-     *
-     */
-    
-    /**
-     *
-     可变数组：
-     
-     NSMutaleArray
-     arrayWithCapacity：创建具有初始容量的数组。
-     addObject：添加对象。
-     removeObjectAtIndex：删除某个位置的对象。
-     *
-     */
-    
-    /**
-     *  
-     枚举:
-     
-     NSEnumerator
-     objectEnumerator
-     reverseObjectEnumerator
-     nextObject
-     *
-     */
-    NSArray *array = [[NSArray alloc] init];
-    for(NSString *string in array){
-        
-        NSLog(@"I found %@", string);
-    }
-    
-    /**
-     *  
-     字典：
-     
-     NSDictionary
-     dictionaryWithObjectsAndKeys
-     objectForKey
-     *
-     */
-    
-    /**
-     *  
-     可变字典：
-     
-     NSMutableDictionary
-     dictionaryWithCapacity
-     setObject:forKey:
-     removeObjectForKey
-     *
-     */
-    
-    /**
-     *  
-     NSNumber
-     
-     numberWithChar
-     numberWithInt
-     numberWithFloat
-     numberWithBool
-     
-     charValue
-     intValue
-     floatValue
-     boolValue
-     stringValue
-     *
-     */
-    
-    /**
-     *  
-     NSValue
-     
-     valueWithPoint
-     valueWithSize
-     valueWithRect
-     
-     pointValue
-     sizeValue
-     rectValue
-     *
-     */
-    NSValue *value;
-    CGRect rect = {1,1,3,4};
-    value = [NSValue value:&rect withObjCType:@encode(CGRect)];
-    CGRect rect3;
-    [value getValue:&rect3];
-    NSLog(@"%f %f",rect3.origin.x,rect3.origin.y);
-    
-    /**
-     *  
-     NSNull
-     
-     [NSNull null]
-     注：<null>是一种[NSNull null]对象，而(null)是一个真实存在的nil值。
-     *
-     */
-    
-    /**
-     *  在mac主目录上查找以jpg结尾的文件目录字符串。
-     */
-    NSFileManager *manager;
-    manager = [NSFileManager defaultManager];
-    
-    NSString *home;
-    home = [@"~"stringByExpandingTildeInPath];
-    
-    NSMutableArray *files;
-    files = [NSMutableArray arrayWithCapacity:42];
-    
-    for (NSString *filename in [manager enumeratorAtPath:home]) {
-        
-        if([[filename pathExtension] isEqualToString:@"jpg"]){
- 
-            [files addObject:filename];
-        }
-    }
-    
-    for (NSString *filename in files) {
-        
-        NSLog(@"%@",filename);
-    }
-    
-    /**
-     *  
-     NSCopying：复制自身。
-     NSCoding：对自身进行编码或解码。
-     
-     *
-     */
-}
-
 #pragma mark - url相关方法
 
 - (void)urlMethodTest {
@@ -426,7 +220,7 @@ static ObjectTest *sharedManager = nil;
     
 }
 
-#pragma mark - 通知机制
+#pragma mark - 通知机制 notification
 
 - (void)notificationTest {
     
@@ -479,6 +273,40 @@ static ObjectTest *sharedManager = nil;
         NSDate *date = [theData objectForKey:@"TerminateDate"];
         NSLog(@"FlipsideViewController App Terminate Date: %@", date);
     }
+}
+
+const NSString *ResultOfAppendingTwoStringsNotification = @"ResultOfAppendingTwoStringsNotification";
+
+- (void)notificationTest2 {
+    
+    /**
+     *  注册通知
+     */
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appendingIsFinished:)
+                                                 name:(NSString *)ResultOfAppendingTwoStringsNotification
+                                               object:self];
+    
+    /**
+     *  推送通知
+     */
+    yyhObjectInit(NSDictionary, userInfo);
+    NSNotification *notificationObject = [NSNotification notificationWithName:(NSString *)ResultOfAppendingTwoStringsNotification
+                                                                       object:self
+                                                                     userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotification:notificationObject];
+    
+    /**
+     *  移除通知
+     */
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)appendingIsFinished:(NSNotification *)paramNotification {
+    
+    NSLog(@"Notification is received.");
+    NSLog(@"Notification Object = %@", [paramNotification object]);
+    NSLog(@"Notification User-Info Dict = %@", [paramNotification userInfo]);
 }
 
 #pragma mark - KVC机制
@@ -1226,6 +1054,7 @@ static ObjectTest *sharedManager = nil;
     
     /**
      *  __bridge_transfer 将CFURLCreateStringByAddingPercentEscapes的内存所有权交给ARC
+     *  这种类型转换会在赋值后将等号右边的变量释放。
      *
      */
     NSString *test = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(
@@ -1247,7 +1076,10 @@ static ObjectTest *sharedManager = nil;
     NSLog(@"%@,%@",test,test1);
     
     
-    
+    /**
+     * __bridge_retained
+     * 这个转换方式类似__bridge_transfer，唯一的差别就是会保留等号右边的变量。
+     */
     NSString *s1 = [[NSString alloc] initWithFormat:@"Hello, %@!", @"111"];
     CFStringRef s2 = (__bridge_retained CFStringRef)s1;//夺取ARC对于s1的所有权。使ARC不用释放s1
     CFRelease(s2);
@@ -1290,6 +1122,122 @@ static ObjectTest *sharedManager = nil;
     block();
 }
 
+#pragma mark - Bundle
 
+- (void)BundleTest {
+    
+    /**
+     *  获取bundle中的文件
+     *  imageWithContentsOfFile
+     */
+    NSString *alanSugarFilePath = [[NSBundle mainBundle] pathForResource:@"AlanSugar"
+                                                                  ofType:@"png"];
+    if ([alanSugarFilePath length] > 0){
+        
+        UIImage *image = [UIImage imageWithContentsOfFile:alanSugarFilePath];
+        if (image != nil){
+            
+            NSLog(@"Successfully loaded the file as an image.");
+        } else {
+            
+            NSLog(@"Failed to load the file as an image.");
+        }
+    } else {
+        
+        NSLog(@"Could not find this file in the main bundle.");
+    }
+    
+    /**
+     *  获取bundle中的文件
+     *  initWithContentsOfFile
+     */
+    if ([alanSugarFilePath length] > 0){
+        
+        NSError *readError = nil;
+        NSData *dataForFile = [[NSData alloc] initWithContentsOfFile:alanSugarFilePath
+                                                             options:NSMappedRead
+                                                               error:&readError];
+        if (readError == nil && dataForFile != nil){
+            
+            NSLog(@"Successfully loaded the data.");
+        } else if (readError == nil && dataForFile == nil){
+            
+            NSLog(@"No data could be loaded.");
+        } else {
+            
+            NSLog(@"An error occured while loading data. Error = %@", readError);
+        }
+    } else {
+        
+        NSLog(@"Could not find this file in the main bundle.");
+    }
+    
+    /**
+     *  从其他文件包加载数据
+     */
+    NSString *resourcesBundlePath = [[NSBundle mainBundle] pathForResource:@"Resources"
+                                                                    ofType:@"bundle"];
+    if ([resourcesBundlePath length] > 0){
+        
+        NSBundle *resourcesBundle = [NSBundle bundleWithPath:resourcesBundlePath];
+        if (resourcesBundle != nil){
+            
+            NSString *pathToAlanSugarImage = [resourcesBundle pathForResource:@"AlanSugar"
+                                                                       ofType:@"png"
+                                                                  inDirectory:@"Images"];
+            
+            if ([pathToAlanSugarImage length] > 0){
+                
+                UIImage *image = [UIImage imageWithContentsOfFile:pathToAlanSugarImage];
+                if (image != nil){
+                    
+                    NSLog(@"Successfully loaded the image from the bundle.");
+                } else {
+                    
+                    NSLog(@"Failed to load the image.");
+                }
+            } else {
+                
+                NSLog(@"Failed to find the file inside the bundle.");
+            }
+        } else {
+            
+            NSLog(@"Failed to load the bundle.");
+        }
+    } else {
+        
+        NSLog(@"Could not find the bundle.");
+    }
+    
+    /**
+     *  查找资源文件包下图片文件夹里所有.png 文件的路径
+     */
+    if ([resourcesBundlePath length] > 0){
+        
+        NSBundle *resourcesBundle = [NSBundle bundleWithPath:resourcesBundlePath];
+        if (resourcesBundle != nil){
+            
+            NSArray *PNGPaths = [resourcesBundle pathsForResourcesOfType:@"png"
+                                                             inDirectory:@"images"];
+            
+            [PNGPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                
+                 NSLog(@"Path %lu = %@", (unsigned long)idx+1, obj);
+             }];
+        } else {
+            
+            NSLog(@"Failed to load the bundle.");
+        }
+    } else {
+        
+        NSLog(@"Could not find the bundle.");
+    }
+}
+
+#pragma mark -
+
+
+
+#pragma mark -
 
 @end

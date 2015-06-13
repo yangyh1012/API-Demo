@@ -19,4 +19,15 @@
 #import "AppDelegate.h"
 #endif
 
+
+#define yyhStringDef(x)             @property (nonatomic, copy) NSString *x;
+#define yyhArrayDef(x)              @property (nonatomic, strong) NSArray *x;
+#define yyhMutableArrayDef(x)       @property (nonatomic, strong) NSMutableArray *x;
+
+#define yyhArrayInit(x)             NSArray *x = [[NSArray alloc] init];
+#define yyhMutableArrayInit(x)      NSMutableArray *x = [[NSMutableArray alloc] init];
+
+#define yyhObjectInit(x,y)          x *y = [[x alloc] init];
+
 #endif
+

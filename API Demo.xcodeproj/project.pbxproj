@@ -42,6 +42,7 @@
 		D7D5CE521AF7B293009F5EC5 /* API_DemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D5CE511AF7B293009F5EC5 /* API_DemoTests.m */; };
 		D7D5CE5D1AF7B2AC009F5EC5 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D5CE5C1AF7B2AC009F5EC5 /* TableViewController.m */; };
 		D7D5CE601AF7B741009F5EC5 /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D5CE5F1AF7B741009F5EC5 /* LogViewController.m */; };
+		D7E56F711B2C002F00574DE0 /* FoundationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E56F701B2C002F00574DE0 /* FoundationTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +124,8 @@
 		D7D5CE5C1AF7B2AC009F5EC5 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		D7D5CE5E1AF7B741009F5EC5 /* LogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogViewController.h; sourceTree = "<group>"; };
 		D7D5CE5F1AF7B741009F5EC5 /* LogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogViewController.m; sourceTree = "<group>"; };
+		D7E56F6F1B2C002F00574DE0 /* FoundationTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoundationTest.h; sourceTree = "<group>"; };
+		D7E56F701B2C002F00574DE0 /* FoundationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoundationTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +244,8 @@
 				D7B3B3D01AFA0606009062F5 /* ObjectTest.m */,
 				D75D72D41B04FCF60087B96B /* SecurityTest.h */,
 				D75D72D51B04FCF60087B96B /* SecurityTest.m */,
+				D7E56F6F1B2C002F00574DE0 /* FoundationTest.h */,
+				D7E56F701B2C002F00574DE0 /* FoundationTest.m */,
 				D77E1A2A1B15F004000EE0C0 /* ThreadAndGCD.h */,
 				D77E1A2B1B15F004000EE0C0 /* ThreadAndGCD.m */,
 				D7D5CE5E1AF7B741009F5EC5 /* LogViewController.h */,
@@ -450,6 +455,7 @@
 				D720346D1B084CBB009E4CA4 /* UIImageView+MKNetworkKitAdditions.m in Sources */,
 				D75BA9771B00802F00C4EB78 /* iOSBookTest.m in Sources */,
 				D720346F1B084CBB009E4CA4 /* MKNetworkOperation.m in Sources */,
+				D7E56F711B2C002F00574DE0 /* FoundationTest.m in Sources */,
 				D720346B1B084CBB009E4CA4 /* NSString+MKNetworkKitAdditions.m in Sources */,
 				D7B3B3D11AFA0606009062F5 /* ObjectTest.m in Sources */,
 				D7D5CE5D1AF7B2AC009F5EC5 /* TableViewController.m in Sources */,

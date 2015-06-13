@@ -13,12 +13,12 @@
 /**
  *  数据集合
  */
-@property (nonatomic, strong) NSMutableArray *dataArray;
+yyhMutableArrayDef(dataArray);
 
 /**
  *  当前解析的标签名字
  */
-@property (nonatomic, strong) NSString *tagName;
+yyhStringDef(tagName);
 
 /**
  *  开始解析
