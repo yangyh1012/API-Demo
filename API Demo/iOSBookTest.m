@@ -181,6 +181,8 @@
      */
 }
 
+#pragma mark - iOS 5 By Tutorials中文版
+
 /**
  *  iOS 5 By Tutorials中文版
  */
@@ -223,6 +225,21 @@
      （未看）第 28 章 新的Game Center APIs（游戏中心）
      （未看）第 29 章 新的CalendarAPIs（日历）
      （未看）第 30 章 新的Linguistic TaggerAPIs（语义识别）
+     
+     */
+}
+
+#pragma mark - iOS 6 Programming Cookbook中文版
+
+- (void)iOS6ProgrammingCookbook {
+    
+    /**
+     *
+     （未看）1.9. 自定义UISegmentedControl
+     
+     
+     
+     
      
      */
 }

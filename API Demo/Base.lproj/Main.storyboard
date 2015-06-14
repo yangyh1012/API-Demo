@@ -15,8 +15,14 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.12934501009999999" green="1" blue="0.080683481520000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <subviews>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j9C-1M-V8Z">
+                                <rect key="frame" x="178" y="126" width="51" height="31"/>
+                            </switch>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="P1v-qM-dgL">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="AeQ-ML-sjw">
                             <connections>
@@ -24,6 +30,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="mainSwitch" destination="j9C-1M-V8Z" id="qCW-lt-lme"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="iTz-Dx-PfX"/>
@@ -41,14 +51,6 @@
                     <view key="view" contentMode="scaleToFill" id="kse-fF-aS1">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GUT-Vk-EDY">
-                                <rect key="frame" x="112" y="128" width="377" height="344"/>
-                                <connections>
-                                    <segue destination="QbS-ob-cVG" kind="embed" id="KPS-GB-i42"/>
-                                </connections>
-                            </containerView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
@@ -73,24 +75,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Dq-Gf-GZ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-44" y="204"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="3vL-lp-2hv">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="QbS-ob-cVG" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Azx-Av-5RF"/>
-                        <viewControllerLayoutGuide type="bottom" id="sfS-MX-zXl"/>
-                    </layoutGuides>
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="fhg-la-ALm">
-                        <rect key="frame" x="0.0" y="0.0" width="377" height="344"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Iaq-xc-Rfu" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
 </document>

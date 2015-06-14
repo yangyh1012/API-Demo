@@ -29,5 +29,10 @@
 
 #define yyhObjectInit(x,y)          x *y = [[x alloc] init];
 
+#define yyhViewAddSubview(x)        [self.view addSubview:x];
+#define yyhAddSubview(x,y)          [x addSubview:y];
+
+#define yyhLog(x)                   NSLog(@"%@",x);
+
 #endif
 

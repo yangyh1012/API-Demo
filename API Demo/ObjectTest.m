@@ -214,9 +214,19 @@ static ObjectTest *sharedManager = nil;
      
      */
     [timer invalidate];
+    
+    /**
+     *  5秒后执行pushSecondController方法。
+     */
+    [self performSelector:@selector(pushSecondController) withObject:nil afterDelay:5.0f];
 }
 
 - (void)download {
+    
+}
+
+- (void)pushSecondController {
+    
     
 }
 

@@ -135,197 +135,6 @@
     
 }
 
-#pragma mark - 单元格视图 UITableViewCell
-
-- (void)createTableViewCell {
-
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
-    
-    /**
-     *  为cell设置背景图片，以及选中时的背景图片
-     */
-    CGRect cellRect = [cell frame];
-    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:cellRect];
-    UIImage *background = [UIImage imageNamed:@"table_cell_single.png"];
-    background = [background resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 43.0, 0.0, 64.0)];
-    [backgroundView setImage:background];
-    [cell setBackgroundView:backgroundView];
-    
-    UIImageView *selectedBackgroundView = [[UIImageView alloc] initWithFrame:cellRect];
-    UIImage *selectBackground = [UIImage imageNamed:@"table_cell_single_sel.png"];
-    selectBackground = [selectBackground resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 43.0, 0.0, 64.0)];
-    [selectedBackgroundView setImage:selectBackground];
-    [cell setSelectedBackgroundView:selectedBackgroundView];
-    
-    /**
-     *  去掉cell的背景颜色
-     */
-    [cell setBackgroundColor:[UIColor clearColor]];
-}
-
-#pragma mark - 滚动视图 UIScrollView
-
-- (void)createScrollView {
-    
-    /*说明：
-     1、contentSize属性：表示ScrollView中内容视图（Content View）的大小，它返回CGSize结构体类型，该结构体包含width和height两个成员。
-     
-     contentSize.width。
-     ScrollView内容视图的宽。
-     
-     contentSize.height。
-     ScrollView内容视图的高。
-     
-     frame.width。
-     ScrollView的宽。
-     
-     frame.height。
-     ScrollView的高。
-     
-     2、contentInset属性：用于在ScrollView中的内容视图周围添加边框，这往往为了留出空白以放置工具栏、标签栏或导航栏等。
-     contentInset属性有4个分量，分别是Top、Bottom、Left和Right，分别代表顶边距离、底边距离、左边距离和右边距离。
-     
-     3、contentOffset属性：是内容视图坐标原点与ScrollView坐标原点的偏移量，返回CGPoint结构体类型，这个结构体类型包含x和y两个成员。
-     
-     设定ScrollView视图沿y轴正偏移110点的代码如下：
-     [self.scrollView setContentOffset:CGPointMake(0, 110) animated:YES];
-     或者
-     self.scrollView.contentOffset = CGPointMake(0, 110);
-     
-     */
-    
-}
-
-/*说明：UIScrollViewDelegate
- 
- */
-- (void)scrollViewDidScroll: (UIScrollView *)aScrollView
-{
-    CGPoint offset = aScrollView.contentOffset;
-    NSLog(@"%@",NSStringFromCGPoint(offset));
-}
-
-
-#pragma mark - 表格视图 UITableView
-
-- (void)createTableView {
-    
-    
-}
-
-#pragma mark - 文本视图 UITextView
-
-- (void)createTextView {
-    
-    /*说明：
-     UITextViewDelegate
-     
-     */
-}
-
-/*说明：通过委托来放弃“第一响应者”
- 
- */
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    
-    if([text isEqualToString:@"\n"]) {
-        
-        /*说明：关闭键盘
-         
-         */
-        [textView resignFirstResponder];
-        return NO;
-    }
-    return YES;
-}
-
-#pragma mark - 集合视图 UICollectionView
-
-- (void)createCollectionView {
-    
-    
-}
-
-#pragma mark - 普通选择器 UIPickerView
-
-- (void)createPickerView {
-    
-    UIPickerView *pickerView = [[UIPickerView alloc] init];
-    
-    /*说明：
-     UIPickerView的Component就是指拨盘，
-     selectedRowInComponent方法返回拨盘中被选定的行的索引，索引是从0开始的。
-     
-     */
-    NSInteger row1 = [pickerView selectedRowInComponent:0];
-    NSInteger row2 = [pickerView selectedRowInComponent:1];
-    NSLog(@"%li,%li",(long)row1,(long)row2);
-    
-    pickerView.dataSource = self;
-    pickerView.delegate = self;
-}
-
-/*说明：实现协议UIPickerViewDataSource方法
- 为选择器中拨轮的数目。
- 
- */
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    
-    return 2;
-}
-
-/*说明：实现协议UIPickerViewDataSource方法
- 为选择器中某个拨轮的行数。
- 
- */
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    
-    if (component == 0) {
-        
-        return 5;
-        
-    } else {
-        
-        return 6;
-    }
-}
-
-/*说明：实现协议UIPickerViewDelegate方法
- 为选择器中某个拨轮的行提供显示数据。
- 
- */
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    
-    if (component == 0) {
-        
-        return @"1";
-    } else {
-        
-        return @"2";
-    }
-}
-
-/*说明：实现协议UIPickerViewDelegate方法
- 选中选择器的某个拨轮中的某行时调用。
- 
- */
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    
-    if (component == 0) {
-        
-        [pickerView reloadComponent:1];
-    }
-}
-
-#pragma mark - 进度条 UIProgressView
-
-- (void)createProgressView {
-    
-    UIProgressView *progressView = [[UIProgressView alloc] init];
-    float progress = progressView.progress;
-    NSLog(@"%.f",progress);
-}
-
 #pragma mark - 活动指示器 UIActivityIndicatorView
 
 - (void)createActivityIndicatorView {
@@ -383,52 +192,6 @@
     self.navigationItem.prompt = nil;
 }
 
-#pragma mark - 网络等待指示器
-
-- (void)networkActivityIndicatorVisible {
-    
-    /**
-     *  会在状态栏中显示网络等待指示器图标。它在状态栏中以经典旋转小图标的形式出现。
-     */
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
-    /**
-     *  停止网络等待指示器，并且其图标会在状态栏中消失。
-     */
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-}
-
-#pragma mark - 选项栏 UITabBar
-
-- (void)createTabBar {
-    
-    UIImage *tabBackground = [[UIImage imageNamed:@"tab_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    
-    /**
-     *  设置背景图片，自定义选项栏的图片，放在didFinishLaunchingWithOptions这个方法中
-     */
-    [[UITabBar appearance] setBackgroundImage:tabBackground];
-    
-    /**
-     *  设置选中时的背景图片，自定义选项栏的图片，放在didFinishLaunchingWithOptions这个方法中
-     */
-    [[UITabBar appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"tab_select_indicator"]];
-}
-
-#pragma mark - 工具栏 UIToolbar
-
-- (void)createToolBar {
-    
-    
-}
-
-#pragma mark - 控制视图 UIControl
-
-- (void)createControl {
-    
-    
-}
-
 #pragma mark - 按钮 UIButton
 
 - (void)createButton {
@@ -459,6 +222,20 @@
     [self.view addSubview:button];
 }
 
+#pragma mark - 集合视图 UICollectionView
+
+- (void)createCollectionView {
+    
+    
+}
+
+#pragma mark - 控制视图 UIControl
+
+- (void)createControl {
+    
+    
+}
+
 #pragma mark - 时间选择器 UIDatePicker
 
 - (void)createDatePicker {
@@ -473,23 +250,97 @@
      
      */
     
+    yyhObjectInit(UIDatePicker, datePicker);
+    
+    datePicker.datePickerMode = UIDatePickerModeTime;
+    
+    [datePicker addTarget:self action:@selector(onclick:) forControlEvents:UIControlEventValueChanged];
+    
+    [self.view addSubview:datePicker];
 }
 
-- (IBAction)onclick:(id)sender {
-    
-    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+- (IBAction)onclick:(UIDatePicker *)datePicker {
     
     /*说明：
      UIDatePicker的date属性返回NSDate数据，就是控件中选中的时间，
      NSDate的descriptionWithLocale:返回基于本地化的日期信息。
      
      */
-    NSDate * theDate = datePicker.date;
+    NSDate *theDate = datePicker.date;
     NSLog(@"the date picked is: %@", [theDate descriptionWithLocale:[NSLocale currentLocale]]);
     
     NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init] ;
     [dateFormatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
     NSLog(@"the date formate is: %@", [dateFormatter stringFromDate:theDate]);
+}
+
+/**
+ *  设置date picker 能够显示的最小和最大时间
+ */
+- (void)datePickerTest2:(UIDatePicker *)datePicker {
+    
+    datePicker.datePickerMode = UIDatePickerModeDate;
+    
+    yyhObjectInit(NSDate, todayDate);
+    NSTimeInterval oneYearTime = 24 * 60 * 60 * 365;
+    NSDate *oneYearFromToday = [todayDate dateByAddingTimeInterval:oneYearTime];
+    NSDate *twoYearsFromToday = [todayDate dateByAddingTimeInterval:2 * oneYearTime];
+    datePicker.minimumDate = oneYearFromToday;
+    datePicker.maximumDate = twoYearsFromToday;
+}
+
+/**
+ *  展现一个两分钟的倒计时的功能
+ */
+- (void)datePickerTest3:(UIDatePicker *)datePicker {
+    
+    NSTimeInterval twoMinutes = 2 * 60;
+    [datePicker setCountDownDuration:twoMinutes];
+}
+
+#pragma mark - 标签 UILabel
+
+- (void)labelTest {
+    
+    yyhObjectInit(UILabel, label);
+    
+    label.text = @"iOS 6 Programming Cookbook";
+    label.font = [UIFont boldSystemFontOfSize:14.0f];
+    
+    /**
+     * 
+     指定了标签中的文本最多可以显示几行
+     如果你不想要显示文本显示的行数，或者你不知道文本要显示多少行，那么将这个属性设置为0
+     */
+    label.numberOfLines = 3;
+    
+    /**
+     *  标签里的字体能自动调整到适合标签的边界
+     */
+    label.adjustsFontSizeToFitWidth = YES;
+    
+    /**
+     *  标签阴影的颜色
+     */
+    label.shadowColor = [UIColor lightGrayColor];
+    
+    /**
+     *  
+     指定了文本阴影的偏移量
+     
+     如果你将这个属性设置为（1,0），阴影将出现在文字右边1 像素的地方。
+     如果设置为（1,2），阴影将出现在文字右边1 像素，文字下面2 像素的地方。
+     如果设置为（-2，-10），阴影将出现在文本左边2像素，文本上边10 像素的地方。
+     
+     */
+    label.shadowOffset = CGSizeMake(2.0f, 2.0f);
+    
+    /**
+     *  指定了文本的换行模式
+     */
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    
+    yyhViewAddSubview(label);
 }
 
 #pragma mark - 分页控制 UIPageControl
@@ -498,6 +349,137 @@
     
     UIPageControl *pageControl = [[UIPageControl alloc] init];
     pageControl.currentPage = 1;
+}
+
+#pragma mark - 普通选择器 UIPickerView
+
+- (void)createPickerView {
+    
+    UIPickerView *pickerView = [[UIPickerView alloc] init];
+    
+    /*说明：
+     UIPickerView的Component就是指拨盘，
+     selectedRowInComponent方法返回拨盘中被选定的行的索引，索引是从0开始的。
+     
+     */
+    NSInteger row1 = [pickerView selectedRowInComponent:0];
+    NSInteger row2 = [pickerView selectedRowInComponent:1];
+    NSLog(@"%li,%li",(long)row1,(long)row2);
+    
+    pickerView.dataSource = self;
+    pickerView.delegate = self;
+    
+    /**
+     *  设置选择器是否有一个水平的阴影效果
+     */
+    pickerView.showsSelectionIndicator = YES;
+    
+    [self.view addSubview:pickerView];
+}
+
+/*说明：实现协议UIPickerViewDataSource方法
+ 为选择器中拨轮的数目。
+ 
+ */
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    
+    return 2;
+}
+
+/*说明：实现协议UIPickerViewDataSource方法
+ 为选择器中某个拨轮的行数。
+ 
+ */
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    
+    if (component == 0) {
+        
+        return 5;
+        
+    } else {
+        
+        return 6;
+    }
+}
+
+/*说明：实现协议UIPickerViewDelegate方法
+ 为选择器中某个拨轮的行提供显示数据。
+ 
+ */
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    
+    if (component == 0) {
+        
+        return @"1";
+    } else {
+        
+        return @"2";
+    }
+}
+
+/*说明：实现协议UIPickerViewDelegate方法
+ 选中选择器的某个拨轮中的某行时调用。
+ 
+ */
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    
+    if (component == 0) {
+        
+        [pickerView reloadComponent:1];
+        
+        //        [pickerView reloadAllComponents];
+    }
+}
+
+#pragma mark - 进度条 UIProgressView
+
+- (void)createProgressView {
+    
+    UIProgressView *progressView = [[UIProgressView alloc] init];
+    float progress = progressView.progress;
+    NSLog(@"%.f",progress);
+}
+
+#pragma mark - 滚动视图 UIScrollView
+
+- (void)createScrollView {
+    
+    /*说明：
+     1、contentSize属性：表示ScrollView中内容视图（Content View）的大小，它返回CGSize结构体类型，该结构体包含width和height两个成员。
+     
+     contentSize.width。
+     ScrollView内容视图的宽。
+     
+     contentSize.height。
+     ScrollView内容视图的高。
+     
+     frame.width。
+     ScrollView的宽。
+     
+     frame.height。
+     ScrollView的高。
+     
+     2、contentInset属性：用于在ScrollView中的内容视图周围添加边框，这往往为了留出空白以放置工具栏、标签栏或导航栏等。
+     contentInset属性有4个分量，分别是Top、Bottom、Left和Right，分别代表顶边距离、底边距离、左边距离和右边距离。
+     
+     3、contentOffset属性：是内容视图坐标原点与ScrollView坐标原点的偏移量，返回CGPoint结构体类型，这个结构体类型包含x和y两个成员。
+     
+     设定ScrollView视图沿y轴正偏移110点的代码如下：
+     [self.scrollView setContentOffset:CGPointMake(0, 110) animated:YES];
+     或者
+     self.scrollView.contentOffset = CGPointMake(0, 110);
+     
+     */
+    
+}
+
+/*说明：UIScrollViewDelegate
+ 
+ */
+- (void)scrollViewDidScroll: (UIScrollView *)aScrollView
+{
+    CGPoint offset = aScrollView.contentOffset;
+    NSLog(@"%@",NSStringFromCGPoint(offset));
 }
 
 #pragma mark - 分段控件 UISegmentedControl
@@ -528,50 +510,29 @@
                                    rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     [[UISegmentedControl appearance] setDividerImage:segUnselectedSelected forLeftSegmentState:UIControlStateNormal
                                    rightSegmentState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-}
-
-#pragma mark - 文本域 UITextField
-
-- (void)createTextField {
     
+    UISegmentedControl *mySegmentedControl = [[UISegmentedControl alloc] initWithItems:
+                                              @[@"iPhone",
+                                                [UIImage imageNamed:@"iPad.png"],
+                                                @"iPod",
+                                                @"iMac"]];
     
-}
-
-/*说明：UITextFieldDelegate
- 
- */
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    [mySegmentedControl addTarget:self action:@selector(segmentChanged:) forControlEvents:UIControlEventValueChanged];
     
-    NSLog(@"call textFieldShouldBeginEditing:");
-    return YES;
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    
-    NSLog(@"call textFieldDidBeginEditing:");
-}
-
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-    
-    NSLog(@"call textFieldShouldEndEditing:");
-    return YES;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    
-    NSLog(@"call textFieldDidEndEditing:");
-}
-
-/*说明：通过委托来放弃“第一响应者”
- 
- */
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    
-    /*说明：关闭键盘
-     
+    /**
+     *  一旦用户选择了一个选项，那个选项会马上被选中而且一直保持选中状态. 如果你想要用户在选中一个选项之后，
+     *  该选项马上变回原始状态（就像没有被选中一样），需要将momentary 属性设置为YES。
      */
-    [textField resignFirstResponder];
-    return YES;
+    mySegmentedControl.momentary = YES;
+    
+    yyhViewAddSubview(mySegmentedControl);
+}
+
+- (void)segmentChanged:(UISegmentedControl *)paramSender {
+    
+    NSInteger selectedSegmentIndex = [paramSender selectedSegmentIndex];
+    NSString *selectedSegmentText = [paramSender titleForSegmentAtIndex:selectedSegmentIndex];
+    NSLog(@"Segment %ld with %@ text is selected",(long)selectedSegmentIndex,selectedSegmentText);
 }
 
 #pragma mark - 滑块 UISlider
@@ -599,9 +560,71 @@
      *  滑块的图片，自定义滑块，放在didFinishLaunchingWithOptions这个方法中
      */
     [[UISlider appearance] setThumbImage:thumbImage forState:UIControlStateNormal];
+    
+    yyhObjectInit(UISlider, mySlider);
+    
+    mySlider.minimumValue = 0.0f;
+    mySlider.maximumValue = 100.0f;
+    mySlider.value = mySlider.maximumValue / 2.0;
+    
+    /**
+     *  最小值的背景颜色
+     */
+    mySlider.minimumTrackTintColor = [UIColor redColor];
+    
+    /**
+     *  最大值的背景颜色
+     */
+    mySlider.maximumTrackTintColor = [UIColor greenColor];
+    
+    /**
+     *  滑块的背景颜色
+     */
+    mySlider.thumbTintColor = [UIColor blackColor];
+    
+    
+    /**
+     *  slider左边的图片
+     */
+    [mySlider setMinimumValueImage:[UIImage imageNamed:@"MinimumValue"]];
+    
+    /**
+     *  最小值的背景图片
+     */
+    [mySlider setMinimumTrackImage:[UIImage imageNamed:@"MinimumValue"] forState:UIControlStateNormal];
+    
+    /**
+     *  滑块的背景图片
+     */
+    [mySlider setThumbImage:[UIImage imageNamed:@"Thumb"] forState:UIControlStateNormal];
+    [mySlider setThumbImage:[UIImage imageNamed:@"Thumb"] forState:UIControlStateHighlighted];
+    
+    /**
+     *  最大值的背景图片
+     */
+    [mySlider setMaximumTrackImage:[UIImage imageNamed:@"MaximumValue"] forState:UIControlStateNormal];
+    
+    /**
+     *  slider右边的图片
+     */
+    [mySlider setMaximumValueImage:[UIImage imageNamed:@"MaximumValue"]];
+    
+    
+    /**
+     *  slider 的thumb 只要一移动，sliderValueChanged: target 方法就会马上被调用。
+     *
+     */
+    [mySlider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    /**
+     *  设为NO，保证thumb 滑动时 不会被连续调用slider 的target
+     */
+    mySlider.continuous = NO;
+    
+    yyhViewAddSubview(mySlider);
 }
 
-- (IBAction)sliderValueChange:(id)sender {
+- (IBAction)sliderValueChanged:(id)sender {
     
     UISlider *slider = (UISlider *)sender;
     int progressAsInt = (int)(slider.value + 0.5f);
@@ -609,7 +632,7 @@
     NSLog(@"%@",newText);
 }
 
-#pragma mark - 开关
+#pragma mark - 开关 UISwitch
 
 /*说明：开关控件 UISwitch
  
@@ -622,6 +645,39 @@
      *  设置开关的背景颜色
      */
     [switchSwitch setOnTintColor:[UIColor colorWithRed:0 green:175.0/255.0 blue:176.0/255.0 alpha:1.0]];
+    
+    /**
+     *  默认开启开关
+     */
+    [switchSwitch setOn:YES];
+    
+    [switchSwitch addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    /**
+     *  开关刚要关时的背景色
+     */
+    switchSwitch.tintColor = [UIColor redColor];
+    /**
+     *  开关打开后的背景色
+     */
+    switchSwitch.onTintColor = [UIColor brownColor];
+    
+    /**
+     *  滑块颜色
+     */
+    switchSwitch.thumbTintColor = [UIColor yellowColor];
+    
+    /**
+     *  这个图片将会在开关开的状态显示
+     */
+    switchSwitch.onImage = [UIImage imageNamed:@"snow"];
+    
+    /**
+     *  这个图片代表开关处于关的状态
+     */
+    switchSwitch.offImage = [UIImage imageNamed:@"snow"];
+    
+    [self.view addSubview:switchSwitch];
 }
 
 - (IBAction)valueChanged:(id)sender {
@@ -629,6 +685,182 @@
     UISwitch *switchSwitch = (UISwitch *)sender;
     BOOL setting = switchSwitch.isOn;
     [switchSwitch setOn:setting animated:YES];
+}
+
+#pragma mark - 选项栏 UITabBar
+
+- (void)createTabBar {
+    
+    UIImage *tabBackground = [[UIImage imageNamed:@"tab_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    
+    /**
+     *  设置背景图片，自定义选项栏的图片，放在didFinishLaunchingWithOptions这个方法中
+     */
+    [[UITabBar appearance] setBackgroundImage:tabBackground];
+    
+    /**
+     *  设置选中时的背景图片，自定义选项栏的图片，放在didFinishLaunchingWithOptions这个方法中
+     */
+    [[UITabBar appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"tab_select_indicator"]];
+}
+
+#pragma mark - 表格视图 UITableView
+
+- (void)createTableView {
+    
+    
+}
+
+#pragma mark - 单元格视图 UITableViewCell
+
+- (void)createTableViewCell {
+
+    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    
+    /**
+     *  为cell设置背景图片，以及选中时的背景图片
+     */
+    CGRect cellRect = [cell frame];
+    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:cellRect];
+    UIImage *background = [UIImage imageNamed:@"table_cell_single.png"];
+    background = [background resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 43.0, 0.0, 64.0)];
+    [backgroundView setImage:background];
+    [cell setBackgroundView:backgroundView];
+    
+    UIImageView *selectedBackgroundView = [[UIImageView alloc] initWithFrame:cellRect];
+    UIImage *selectBackground = [UIImage imageNamed:@"table_cell_single_sel.png"];
+    selectBackground = [selectBackground resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 43.0, 0.0, 64.0)];
+    [selectedBackgroundView setImage:selectBackground];
+    [cell setSelectedBackgroundView:selectedBackgroundView];
+    
+    /**
+     *  去掉cell的背景颜色
+     */
+    [cell setBackgroundColor:[UIColor clearColor]];
+}
+
+#pragma mark - 文本域 UITextField
+
+- (void)createTextField {
+    
+    yyhObjectInit(UITextField, textField);
+    
+    /**
+     *  指定文本视图如何显示他的边框
+     */
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    
+    /**
+     *  告诉文本视图如何垂直显示文本。
+     */
+    textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    
+    /**
+     *  指定了文本视图里的文本水平对齐方式
+     */
+    textField.textAlignment = NSTextAlignmentCenter;
+    
+    
+    
+    yyhViewAddSubview(textField);
+}
+
+/*
+ 说明：UITextFieldDelegate
+ */
+
+/**
+ *  告诉文本视图用户是否开始编辑了
+ */
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    
+    NSLog(@"call textFieldShouldBeginEditing:");
+    return YES;
+}
+
+/**
+ *  当用户开始编辑文本视图时这个方法将会被调用
+ */
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    
+    NSLog(@"call textFieldDidBeginEditing:");
+}
+
+/**
+ *  告诉文本视图是否结束当前的编辑任务
+ */
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    
+    NSLog(@"call textFieldShouldEndEditing:");
+    return YES;
+}
+
+/**
+ *  当文本视图的编辑任务终止时将会调用这个方法
+ */
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    
+    NSLog(@"call textFieldDidEndEditing:");
+}
+
+/*说明：通过委托来放弃“第一响应者”
+ 
+ */
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    /*说明：关闭键盘
+     
+     */
+    [textField resignFirstResponder];
+    return YES;
+}
+
+#pragma mark - 文本视图 UITextView
+
+- (void)createTextView {
+    
+    /*说明：
+     UITextViewDelegate
+     
+     */
+}
+
+/*说明：通过委托来放弃“第一响应者”
+ 
+ */
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        
+        /*说明：关闭键盘
+         
+         */
+        [textView resignFirstResponder];
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark - 工具栏 UIToolbar
+
+- (void)createToolBar {
+    
+    
+}
+
+#pragma mark - 网络等待指示器
+
+- (void)networkActivityIndicatorVisible {
+    
+    /**
+     *  会在状态栏中显示网络等待指示器图标。它在状态栏中以经典旋转小图标的形式出现。
+     */
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    /**
+     *  停止网络等待指示器，并且其图标会在状态栏中消失。
+     */
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 #pragma mark - 导航栏 UINavigationBar
@@ -666,7 +898,7 @@
     [[UIBarButtonItem appearance] setBackButtonBackgroundImage:button24 forState:UIControlStateNormal barMetrics:UIBarMetricsCompact];
 }
 
-#pragma mark - navigationItem
+#pragma mark - 导航栏选项 UINavigationItem
 
 - (void)createnavigationItem {
  
@@ -754,6 +986,14 @@
                                                        delegate:self
                                               cancelButtonTitle:@"No"
                                               otherButtonTitles:@"Yes", nil];
+    
+    /**
+     *  UIAlertActionStyleDefault：默认样式
+     *  UIAlertViewStyleSecureTextInput：提示视图会包含一个安全加密的文字栏位
+     *  UIAlertViewStylePlainTextInput：提示试图会显示一个可见的文字栏位
+     *  UIAlertViewStyleLoginAndPasswordInput：提示视图会显示两个本文栏位，一个是可见的用户名称栏位，另一个是加密的密码栏位。
+     */
+    alertView.alertViewStyle = UIAlertActionStyleDefault;
     [alertView show];
     
     UIAlertView *alertView2 = [[UIAlertView alloc] initWithTitle:@"Alert"
@@ -761,6 +1001,11 @@
                                                         delegate:nil
                                                cancelButtonTitle:@"OK"
                                                otherButtonTitles: nil];
+    
+    alertView2.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *textField = [alertView2 textFieldAtIndex:0];
+    textField.keyboardType = UIKeyboardTypeNumberPad;
+    
     [alertView2 show];
 }
 

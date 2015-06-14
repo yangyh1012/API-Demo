@@ -7,10 +7,10 @@
 //
 
 #import "ViewController.h"
-#import <iAd/iAd.h>
 
-@interface ViewController ()<ADBannerViewDelegate>
+@interface ViewController ()
 
+@property (weak, nonatomic) IBOutlet UISwitch *mainSwitch;
 
 @end
 
