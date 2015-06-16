@@ -55,6 +55,12 @@
     
     [self textKitTest1];
     [self textKitTest2];
+    
+    
+    yyhObjectInit(UILabel, label);
+    
+    label.attributedText = [self attributedText];
+    [label sizeToFit];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -219,6 +225,68 @@
      
      */
     textView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+}
+
+#pragma mark -
+
+- (NSAttributedString *)attributedText {
+    
+    NSString *string = @"iOS SDK";
+    
+    NSMutableAttributedString *result = [[NSMutableAttributedString alloc] initWithString:string];
+    
+    NSDictionary *attributesForFirstWord = @{
+                                             NSFontAttributeName : [UIFont boldSystemFontOfSize:60.0f],
+                                             NSForegroundColorAttributeName : [UIColor redColor],
+                                             NSBackgroundColorAttributeName : [UIColor blackColor]
+                                             };
+    
+    NSShadow *shadow = [[NSShadow alloc] init];
+    shadow.shadowColor = [UIColor darkGrayColor];
+    shadow.shadowOffset = CGSizeMake(4.0f, 4.0f);
+    
+    /**
+     *  
+     NSFontAttributeName：
+     这个key 的值是UIFont 的一个实例，用来定义指定字符串范围的字体。
+     
+     NSForegroundColorAttributeName：
+     这个key 的值是UIColor 类型，用来定义指定字符串范围的颜色。
+     
+     NSBackgroundColorAttributeName：
+     这个key 的值是UIColor 类型，用来定义指定字符串范围的背景颜色。
+     
+     NSShadowAttributeName：
+     这个key 的值必须是NSShadow 的一个实例，用来定义指定字符串范围的阴影。
+     
+     */
+    NSDictionary *attributesForSecondWord = @{
+                                              NSFontAttributeName : [UIFont boldSystemFontOfSize:60.0f],
+                                              NSForegroundColorAttributeName : [UIColor whiteColor],
+                                              NSBackgroundColorAttributeName : [UIColor redColor],
+                                              NSShadowAttributeName : shadow
+                                              };
+    
+    /* Find the string "iOS" in the whole string and sets its attribute */
+    
+    /**
+     *  
+     setAttributes：
+     是一个字典，字典左右的key 都是字符属性，每个key 的值依赖于key 本身。上面是字典中可以设置的一些重要key。
+     
+     range：
+     是NSRange 类型，用来指定属性应用在字符串的起点和长度。
+     
+     */
+    [result setAttributes:attributesForFirstWord
+                    range:[string rangeOfString:@"iOS"]];
+    
+    /* Do the same thing for the string "SDK" */
+    [result setAttributes:attributesForSecondWord
+                    range:[string rangeOfString:@"SDK"]];
+    
+    return [[NSAttributedString alloc] initWithAttributedString:result];
+    
 }
 
 #pragma mark -

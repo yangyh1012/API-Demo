@@ -122,7 +122,7 @@
     NSLog(@"Action method got called.");
 }
 
-#pragma mark - 
+#pragma mark - UITabBarController
 
 - (void)tabBarControllerTest {
     
@@ -155,6 +155,27 @@
      *  tabBarController的图片
      */
     self.tabBarItem.image = [UIImage imageNamed:@"SecondTab.png"];
+}
+
+#pragma mark - UISplitViewController
+
+- (void)splitViewControllerTest {
+ 
+    
+}
+
+#pragma mark - UIPageViewController
+
+- (void)pageViewControllerTest {
+    
+    
+}
+
+#pragma mark - UIPopoverController
+
+- (void)popoverControllerTest {
+    
+    
 }
 
 @end

@@ -12,7 +12,7 @@
 /*说明：
  
  */
-@interface UserInterfaceViewController ()<UIAlertViewDelegate,UIActionSheetDelegate,UIWebViewDelegate,UIPickerViewDelegate, UIPickerViewDataSource>
+@interface UserInterfaceViewController ()<UIAlertViewDelegate,UIActionSheetDelegate,UIWebViewDelegate,UIPickerViewDelegate, UIPickerViewDataSource,UITextFieldDelegate,UIScrollViewDelegate>
 
 @end
 
@@ -135,6 +135,53 @@
     
 }
 
+#pragma mark - 操作表 UIActionSheet
+
+- (void)createActionSheet {
+    
+    /*说明：
+     如果想给用户提供多于两个的选择时。
+     
+     */
+    
+}
+
+- (IBAction)testActionSheet:(id)sender {
+    
+    /*说明：
+     delegate参数设定为self，即该操作表的委托对象为当前的视图控制器。
+     cancelButtonTitle参数用于设置“取消”按钮的标题，在iPhone中它在最下面。
+     destructiveButtonTitle参数用于设置“破坏性”按钮，它的颜色是红色的，如果没有“破坏性”按钮，可以将该参数设定为nil。“破坏性”按钮只能有一个，在最上面。
+     otherButtonTitles参数是其他按钮，它是一个字符串数组，以nil结尾。
+     
+     */
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"取消"
+                                               destructiveButtonTitle:@"破坏性按钮"
+                                                    otherButtonTitles:@"Fackbook",@"新浪微博",nil];
+    
+    /*说明：设定操作表的样式
+     UIActionSheetStyleAutomatic。自动样式。
+     UIActionSheetStyleDefault。默认样式。
+     UIActionSheetStyleBlackTranslucent。半透明样式。
+     UIActionSheetStyleBlackOpaque。透明样式。
+     
+     */
+    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+    [actionSheet showInView:self.view];
+    
+    
+}
+
+/*说明：实现UIActionSheetDelegate
+ 
+ */
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    NSLog(@"buttonIndex = %li",(long)buttonIndex);
+}
+
 #pragma mark - 活动指示器 UIActivityIndicatorView
 
 - (void)createActivityIndicatorView {
@@ -192,6 +239,87 @@
     self.navigationItem.prompt = nil;
 }
 
+#pragma mark - 警告框 UIAlertView
+
+- (void)createAlertView {
+    
+    /*说明：
+     警告框使用场景：
+     应用不能继续运行。
+     例如，无法获得网络数据或者功能不能完成的时候，给用户一个警告，这种警告框只需一个按钮。
+     
+     询问另外的解决方案。
+     好多应用在不能继续运行时，会给出另外的解决方案，让用户去选择。例如，Wi-Fi网络无法连接时，是否可以使用3G网络。
+     
+     询问对操作的授权。
+     当应用访问用户的一些隐私信息时，需要用户授权，例如用户当前的位置、通讯录或日程表等。
+     
+     */
+    
+    
+    /*说明：
+     其中delegate参数在本例中设定为self，即该警告框的委托对象为当前的视图控制器.
+     cancelButtonTitle参数用于设置“取消”按钮的标题，它是警告框的左按钮；
+     otherButtonTitles参数是其他按钮，它是一个字符串数组，该字符串数组以nil结尾。
+     
+     */
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert"
+                                                        message:@"Alert text goes here"
+                                                       delegate:self
+                                              cancelButtonTitle:@"No"
+                                              otherButtonTitles:@"Yes", nil];
+    
+    /**
+     *  UIAlertActionStyleDefault：默认样式
+     *  UIAlertViewStyleSecureTextInput：提示视图会包含一个安全加密的文字栏位
+     *  UIAlertViewStylePlainTextInput：提示试图会显示一个可见的文字栏位
+     *  UIAlertViewStyleLoginAndPasswordInput：提示视图会显示两个本文栏位，一个是可见的用户名称栏位，另一个是加密的密码栏位。
+     */
+    alertView.alertViewStyle = UIAlertActionStyleDefault;
+    [alertView show];
+    
+    UIAlertView *alertView2 = [[UIAlertView alloc] initWithTitle:@"Alert"
+                                                         message:@"Alert text goes here"
+                                                        delegate:nil
+                                               cancelButtonTitle:@"OK"
+                                               otherButtonTitles: nil];
+    
+    alertView2.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *textField = [alertView2 textFieldAtIndex:0];
+    textField.keyboardType = UIKeyboardTypeNumberPad;
+    
+    [alertView2 show];
+}
+
+/*说明：实现UIAlertViewDelegate
+ 
+ */
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    NSLog(@"buttonIndex = %li",(long)buttonIndex);
+}
+
+#pragma mark - 导航栏按钮 UIBarButtonItem
+
+- (void)createBarButtonItem {
+    
+    /**
+     *  自定义UIBarButtonItem的背景图和字体，放在didFinishLaunchingWithOptions这个方法中
+     */
+    UIImage *button30 = [[UIImage imageNamed:@"button_textured_30"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
+    UIImage *button24 = [[UIImage imageNamed:@"button_textured_24"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
+    [[UIBarButtonItem appearance] setBackgroundImage:button30 forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackgroundImage:button24 forState:UIControlStateNormal barMetrics:UIBarMetricsCompact];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:220.0/255.0 green:104.0/255.0 blue:1.0/255.0 alpha:1.0], NSForegroundColorAttributeName, [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], NSShadowAttributeName, [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], NSShadowAttributeName, [UIFont fontWithName:@"AmericanTypewriter" size:0.0], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    
+    /**
+     *  setBackButtonBackgroundImage
+     *  自定义返回按钮的样式，放在didFinishLaunchingWithOptions这个方法中
+     */
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:button30 forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:button24 forState:UIControlStateNormal barMetrics:UIBarMetricsCompact];
+}
+
 #pragma mark - 按钮 UIButton
 
 - (void)createButton {
@@ -199,12 +327,20 @@
     /*说明：创建UIButton对象
      
      */
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     
     /*说明：设置按钮文本标题
      
      */
     [button setTitle:@"Press Me" forState:UIControlStateNormal];
+    
+    /**
+     *  设置按钮的背景图片
+     */
+    UIImage *normalImage = [UIImage imageNamed:@"NormalBlueButton.png"];
+    [button setBackgroundImage:normalImage forState:UIControlStateNormal];
+    
+    [button setImage:normalImage forState:UIControlStateNormal];
     
     /*说明：尺寸自动适应
      
@@ -216,10 +352,17 @@
      */
     button.center = CGPointMake(100, 50);
     
+    [button addTarget:self action:@selector(buttonIsTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
     /*说明：将按钮加入父视图
      
      */
     [self.view addSubview:button];
+}
+
+- (void)buttonIsTapped:(UIButton *)paramSender {
+    
+    NSLog(@"Button is pressed.");
 }
 
 #pragma mark - 集合视图 UICollectionView
@@ -298,6 +441,28 @@
     [datePicker setCountDownDuration:twoMinutes];
 }
 
+#pragma mark - 图片视图 UIImageView
+
+- (void)imageViewTest {
+    
+    UIImage *macBookAir = [UIImage imageNamed:@"MacBookAir.png"];
+    UIImageView *myImageView = [[UIImageView alloc] initWithImage:macBookAir];
+    myImageView.center = self.view.center;
+    
+    /**
+     *  
+     
+     UIViewContentModeScaleToFill：这个值会将image view 里的图片进行缩放，以充满整个image view。
+     UIViewContentModeScaleAspectFit：这个值会确保image view 里的图片有正确的长宽比，并且会确保图片适应image view的边界。
+     UIViewContentModeScaleAspectFill：这个值会确保image view 里的图片有正确的长宽比，并且使图片充满整个图片视图的
+     边界。为了能使这个值正常工作，确保将clipsToBounds 这个属性值设置为YES。
+     
+     */
+    myImageView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    yyhViewAddSubview(myImageView);
+}
+
 #pragma mark - 标签 UILabel
 
 - (void)labelTest {
@@ -341,6 +506,32 @@
     label.lineBreakMode = NSLineBreakByWordWrapping;
     
     yyhViewAddSubview(label);
+}
+
+#pragma mark - 导航栏 UINavigationBar
+
+- (void)createNavigationBar {
+    
+    /**
+     *  自定义导航栏的背景图和字体，放在didFinishLaunchingWithOptions这个方法中
+     */
+    UIImage *gradientImage44 = [[UIImage imageNamed:@"surf_gradient_textured_44"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    UIImage *gradientImage32 = [[UIImage imageNamed:@"surf_gradient_textured_32"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    [[UINavigationBar appearance] setBackgroundImage:gradientImage44 forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBackgroundImage:gradientImage32 forBarMetrics:UIBarMetricsCompact];
+    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0], NSForegroundColorAttributeName, [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8], NSShadowAttributeName, [NSValue valueWithUIOffset:UIOffsetMake(0, -1)], NSShadowAttributeName, [UIFont fontWithName:@"Arial-Bold" size:0.0], NSFontAttributeName, nil]];
+}
+
+#pragma mark - 导航栏选项 UINavigationItem
+
+- (void)createnavigationItem {
+    
+    /**
+     
+     设置导航栏标题的图片，导航栏自定义标题图片
+     
+     */
+    [[self navigationItem] setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]]];
 }
 
 #pragma mark - 分页控制 UIPageControl
@@ -436,6 +627,11 @@
 - (void)createProgressView {
     
     UIProgressView *progressView = [[UIProgressView alloc] init];
+    
+    /**
+     *  跟UIProgressViewStyleDefault 相似，不过这是用于添加到toolbar 中的进度视图。
+     */
+    progressView.progressViewStyle = UIProgressViewStyleBar;
     float progress = progressView.progress;
     NSLog(@"%.f",progress);
 }
@@ -471,15 +667,61 @@
      
      */
     
+    yyhObjectInit(UIScrollView, scrollView);
+    
+    /**
+     *  开启分页
+     */
+    CGRect scrollViewRect = self.view.bounds;
+    scrollView.pagingEnabled = YES;
+    scrollView.contentSize = CGSizeMake(scrollViewRect.size.width * 3.0f, scrollViewRect.size.height);
+    
+    scrollView.delegate = self;
+    
+    /**
+     *  改变指示器的外观
+     */
+    scrollView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+    
+    yyhViewAddSubview(scrollView);
 }
 
 /*说明：UIScrollViewDelegate
+ 
+ 当滑动视图里的内容滑动时将调用这个方法。
  
  */
 - (void)scrollViewDidScroll: (UIScrollView *)aScrollView
 {
     CGPoint offset = aScrollView.contentOffset;
     NSLog(@"%@",NSStringFromCGPoint(offset));
+}
+
+/**
+ *  当用户滑动滑动视图里的内容并且手指离开屏幕而且内容还在滑动的时候，将会调用这个方法。
+ *
+ */
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    
+    
+}
+
+/**
+ *  当滑动视图里的内容结束滑动时将调用这个方法。
+ *
+ */
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    
+    
+}
+
+/**
+ *  当用户完成拖拽滑动视图里的内容时将会调用这个方法。
+ *
+ */
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    
+    
 }
 
 #pragma mark - 分段控件 UISegmentedControl
@@ -760,7 +1002,30 @@
      */
     textField.textAlignment = NSTextAlignmentCenter;
     
+    /**
+     *  占位符，输入提示
+     */
+    textField.placeholder = @"Enter text here...";
     
+    yyhObjectInit(UILabel, currencyLabel);
+    //货币符号
+    currencyLabel.text = [[[NSNumberFormatter alloc] init] currencySymbol];
+    
+    /**
+     *  左视图
+     */
+    textField.leftView = currencyLabel;
+    
+    textField.delegate = self;
+    
+    /**
+     *  左视图显示模式
+     UITextFieldViewModeNever：从不显示左视图。
+     UITextFieldViewModeWhileEditing：当编辑的时候才显示左视图。
+     UITextFieldViewModeUnlessEditing：不编辑的时候才显示左视图。
+     UITextFieldViewModeAlways：一直显示左视图。
+     */
+    textField.leftViewMode = UITextFieldViewModeAlways;
     
     yyhViewAddSubview(textField);
 }
@@ -815,6 +1080,23 @@
     return YES;
 }
 
+/**
+ *  任何时候文本视图里的文本被修改都会调动这个方法。方法返回的是一个布尔值。假如
+ *  返回YES，说明允许修改文本。如果返回NO，文本视图中的文本不会被修改。
+ */
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    return YES;
+}
+
+/**
+ *  人工启动清除按钮
+ */
+- (BOOL)textFieldShouldClear:(UITextField *)textField {
+    
+    return YES;
+}
+
 #pragma mark - 文本视图 UITextView
 
 - (void)createTextView {
@@ -823,6 +1105,13 @@
      UITextViewDelegate
      
      */
+    
+    yyhObjectInit(UITextView, myTextView);
+    
+    myTextView.text = @"Some text here...";
+    myTextView.font = [UIFont systemFontOfSize:16.0f];
+    
+    yyhViewAddSubview(myTextView);
 }
 
 /*说明：通过委托来放弃“第一响应者”
@@ -848,175 +1137,6 @@
     
 }
 
-#pragma mark - 网络等待指示器
-
-- (void)networkActivityIndicatorVisible {
-    
-    /**
-     *  会在状态栏中显示网络等待指示器图标。它在状态栏中以经典旋转小图标的形式出现。
-     */
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
-    /**
-     *  停止网络等待指示器，并且其图标会在状态栏中消失。
-     */
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-}
-
-#pragma mark - 导航栏 UINavigationBar
-
-- (void)createNavigationBar {
-    
-    /**
-     *  自定义导航栏的背景图和字体，放在didFinishLaunchingWithOptions这个方法中
-     */
-    UIImage *gradientImage44 = [[UIImage imageNamed:@"surf_gradient_textured_44"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    UIImage *gradientImage32 = [[UIImage imageNamed:@"surf_gradient_textured_32"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    [[UINavigationBar appearance] setBackgroundImage:gradientImage44 forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setBackgroundImage:gradientImage32 forBarMetrics:UIBarMetricsCompact];
-    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0], NSForegroundColorAttributeName, [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8], NSShadowAttributeName, [NSValue valueWithUIOffset:UIOffsetMake(0, -1)], NSShadowAttributeName, [UIFont fontWithName:@"Arial-Bold" size:0.0], NSFontAttributeName, nil]];
-}
-
-#pragma mark - 导航栏按钮 UIBarButtonItem
-
-- (void)createBarButtonItem {
-    
-    /**
-     *  自定义UIBarButtonItem的背景图和字体，放在didFinishLaunchingWithOptions这个方法中
-     */
-    UIImage *button30 = [[UIImage imageNamed:@"button_textured_30"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
-    UIImage *button24 = [[UIImage imageNamed:@"button_textured_24"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
-    [[UIBarButtonItem appearance] setBackgroundImage:button30 forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [[UIBarButtonItem appearance] setBackgroundImage:button24 forState:UIControlStateNormal barMetrics:UIBarMetricsCompact];
-    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:220.0/255.0 green:104.0/255.0 blue:1.0/255.0 alpha:1.0], NSForegroundColorAttributeName, [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], NSShadowAttributeName, [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], NSShadowAttributeName, [UIFont fontWithName:@"AmericanTypewriter" size:0.0], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    
-    /**
-     *  setBackButtonBackgroundImage
-     *  自定义返回按钮的样式，放在didFinishLaunchingWithOptions这个方法中
-     */
-    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:button30 forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:button24 forState:UIControlStateNormal barMetrics:UIBarMetricsCompact];
-}
-
-#pragma mark - 导航栏选项 UINavigationItem
-
-- (void)createnavigationItem {
- 
-    /**
-     
-     设置导航栏标题的图片，导航栏自定义标题图片
-     
-     */
-    [[self navigationItem] setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]]];
-}
-
-#pragma mark - 操作表 UIActionSheet
-
-- (void)createActionSheet {
-    
-    /*说明：
-     如果想给用户提供多于两个的选择时。
-     
-     */
-
-}
-
-- (IBAction)testActionSheet:(id)sender {
-    
-    /*说明：
-     delegate参数设定为self，即该操作表的委托对象为当前的视图控制器。
-     cancelButtonTitle参数用于设置“取消”按钮的标题，在iPhone中它在最下面。
-     destructiveButtonTitle参数用于设置“破坏性”按钮，它的颜色是红色的，如果没有“破坏性”按钮，可以将该参数设定为nil。“破坏性”按钮只能有一个，在最上面。
-     otherButtonTitles参数是其他按钮，它是一个字符串数组，以nil结尾。
-     
-     */
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                             delegate:self
-                                                    cancelButtonTitle:@"取消"
-                                               destructiveButtonTitle:@"破坏性按钮"
-                                                    otherButtonTitles:@"Fackbook",@"新浪微博",nil];
-    
-    /*说明：设定操作表的样式
-     UIActionSheetStyleAutomatic。自动样式。
-     UIActionSheetStyleDefault。默认样式。
-     UIActionSheetStyleBlackTranslucent。半透明样式。
-     UIActionSheetStyleBlackOpaque。透明样式。
-     
-     */
-    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-    [actionSheet showInView:self.view];
-    
-    
-}
-
-/*说明：实现UIActionSheetDelegate
- 
- */
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    NSLog(@"buttonIndex = %li",(long)buttonIndex);
-}
-
-#pragma mark - 警告框 UIAlertView
-
-- (void)createAlertView {
-    
-    /*说明：
-     警告框使用场景：
-     应用不能继续运行。
-     例如，无法获得网络数据或者功能不能完成的时候，给用户一个警告，这种警告框只需一个按钮。
-     
-     询问另外的解决方案。
-     好多应用在不能继续运行时，会给出另外的解决方案，让用户去选择。例如，Wi-Fi网络无法连接时，是否可以使用3G网络。
-     
-     询问对操作的授权。
-     当应用访问用户的一些隐私信息时，需要用户授权，例如用户当前的位置、通讯录或日程表等。
-     
-     */
-    
-    
-    /*说明：
-     其中delegate参数在本例中设定为self，即该警告框的委托对象为当前的视图控制器.
-     cancelButtonTitle参数用于设置“取消”按钮的标题，它是警告框的左按钮；
-     otherButtonTitles参数是其他按钮，它是一个字符串数组，该字符串数组以nil结尾。
-     
-     */
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert"
-                                                        message:@"Alert text goes here"
-                                                       delegate:self
-                                              cancelButtonTitle:@"No"
-                                              otherButtonTitles:@"Yes", nil];
-    
-    /**
-     *  UIAlertActionStyleDefault：默认样式
-     *  UIAlertViewStyleSecureTextInput：提示视图会包含一个安全加密的文字栏位
-     *  UIAlertViewStylePlainTextInput：提示试图会显示一个可见的文字栏位
-     *  UIAlertViewStyleLoginAndPasswordInput：提示视图会显示两个本文栏位，一个是可见的用户名称栏位，另一个是加密的密码栏位。
-     */
-    alertView.alertViewStyle = UIAlertActionStyleDefault;
-    [alertView show];
-    
-    UIAlertView *alertView2 = [[UIAlertView alloc] initWithTitle:@"Alert"
-                                                         message:@"Alert text goes here"
-                                                        delegate:nil
-                                               cancelButtonTitle:@"OK"
-                                               otherButtonTitles: nil];
-    
-    alertView2.alertViewStyle = UIAlertViewStylePlainTextInput;
-    UITextField *textField = [alertView2 textFieldAtIndex:0];
-    textField.keyboardType = UIKeyboardTypeNumberPad;
-    
-    [alertView2 show];
-}
-
-/*说明：实现UIAlertViewDelegate
- 
- */
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    NSLog(@"buttonIndex = %li",(long)buttonIndex);
-}
-
 #pragma mark - 网页 UIWebView
 
 - (void)createWebView {
@@ -1040,6 +1160,27 @@
      使用JavaScript调用本地代码
      
      */
+    
+    yyhObjectInit(UIWebView, webView);
+    
+    webView.delegate = self;
+    
+    /**
+     *  loadHTMLString：baseURL:
+     *  这个方法是加载NSString 的一个实例到页面视图上。这个string 必须是一个有效的HTML，或者说浏览器可以渲染的内容。
+     */
+    NSString *htmlString = @"iOS 6 Programming <strong>Cookbook</strong>";
+    [webView loadHTMLString:htmlString baseURL:nil];
+    
+    yyhViewAddSubview(webView);
+    
+    /**
+     *  loadRequest：
+     *  加载一个NSURLRequest 的实例。当你想要在应用程序的网页视图里加载远程的URL时，这个方法是很有用的。
+     */
+    NSURL *url = [NSURL URLWithString:@"http://www.apple.com"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [webView loadRequest:request];
     
 }
 
@@ -1098,6 +1239,17 @@
 
 /*说明：UIWebViewDelegate委托定义方法
  
+ 当网页视图开始加载内容时将调用这个方法。
+ 
+ */
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    
+    
+}
+
+/**
+ *  当网页视图完成加载时将调用这个方法。
+ *
  */
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     
@@ -1110,11 +1262,53 @@
     NSLog(@"%@",[webView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"]);
 }
 
+/**
+ *  当因加载出错（例如：因网络问题而断开可连接）而导致停止加载时将调用这方法。
+ *
+ */
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    
+    
+}
+
+#pragma mark - 网络等待指示器
+
+- (void)networkActivityIndicatorVisible {
+    
+    /**
+     *  会在状态栏中显示网络等待指示器图标。它在状态栏中以经典旋转小图标的形式出现。
+     */
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    /**
+     *  停止网络等待指示器，并且其图标会在状态栏中消失。
+     */
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
+
+
 #pragma mark - 键盘 UIKeyboard
 
 - (void)createkeyboard {
     
-    
+    /**
+     *  
+     UIKeyboardWillShowNotification
+     当键盘即将要显示的时候将会发出这个通知。
+     这个通知包含了用户信息字典，里面包括了键盘的各种信息，键盘将以动画的形式显示在屏幕上。
+     
+     UIKeyboardDidShowNotification
+     当键盘已经显示在屏幕上时将发出这个通知。
+     
+     UIKeyboardWillHideNotification
+     当键盘将要从屏幕上移除时将会发出此通知。
+     通知里包含了用户信息字典，里面包括了各种关于键盘信息的详细信息，当键盘隐藏时的动画，动画的持续时间，等等。
+     
+     UIKeyboardDidHideNotification
+     当键盘完全隐藏后将发出此通知。
+     *
+     */
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -1154,7 +1348,24 @@
     
     NSDictionary *info = [notification userInfo];
     
-    /*说明：UIKeyboardFrameEndUserInfoKey获得键盘的尺寸，键盘高度
+    /*说明：
+     UIKeyboardAnimationCurveUserInfoKey：
+     这个关键字的值指明了显示和隐藏键盘使用的动画类型。
+     这个关键字包含了一个NSNumber 类型的值，此类型包含了一个NSUInteger 类型无符号整数
+     
+     UIKeyboardAnimationDurationUserInfoKey：
+     这个键值指明了键盘显示或隐藏的动画所用的时间。
+     这个键包含一个NSNumber 类型的值，此类包含一个double 类型的双字节值。
+     
+     UIKeyboardFrameBeginUserInfoKey：
+     这个键值指明了键盘在动画之前的frame。
+     假如键盘将要显示时，在显示之前将这个frame 传递给这个动画。假如键盘已经显示了并即将要隐藏时，
+     这个frame 将会传递给这个隐藏动画，在键盘消失之前。这个键包含了一个CGRect 类型的值。
+     
+     UIKeyboardFrameEndUserInfoKey：获得键盘的尺寸，键盘高度
+     这个键值指明了动画完成后的键盘frame。
+     假如键盘即将要显示时，这个frame 将会在键盘完全显示后传递给键盘。。假如键盘已经完全显示，
+     而且将要隐藏时，在完全隐藏后这个frame 将会传递给键盘。这个键值包含了一个CGRect 类型的值。
      
      */
     NSValue *value = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
@@ -1169,7 +1380,7 @@
 }
 
 /**
- *  在textView中输入时避免键盘的遮挡 textview 键盘
+ *  在textView中输入时避免键盘的遮挡 textview 键盘 键盘自适应 自适应
  */
 - (void)keyboardDidShow1:(NSNotification *)notification {
     
@@ -1186,7 +1397,7 @@
 }
 
 /**
- *  在textView中输入时避免键盘的遮挡 textview 键盘
+ *  在textView中输入时避免键盘的遮挡 textview 键盘 键盘自适应 自适应
  */
 - (void)keyboardDidHide1:(NSNotification *)notification {
     

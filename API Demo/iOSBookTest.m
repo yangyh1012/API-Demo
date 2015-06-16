@@ -236,6 +236,9 @@
     /**
      *
      （未看）1.9. 自定义UISegmentedControl
+     （未看）1.25. 使用UISplitViewController 显示Master-Detail 视图
+     （未看）1.26. 使用UIPageViewController 启用分页
+     （未看）1.27. 使用UIPopoverController 显示弹出画面（弹出框）
      
      
      
