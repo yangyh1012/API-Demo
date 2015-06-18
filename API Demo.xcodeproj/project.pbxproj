@@ -31,6 +31,7 @@
 		D77F85691B032321008E4380 /* AnimateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D77F85681B032321008E4380 /* AnimateViewController.m */; };
 		D78D54FE1B2D49CA006C4200 /* controllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D78D54FD1B2D49CA006C4200 /* controllerViewController.m */; };
 		D79623D41B26D81000573544 /* SuperCoolSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = D79623D31B26D81000573544 /* SuperCoolSegue.m */; };
+		D7B308331B31754200863361 /* autoLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B308321B31754200863361 /* autoLayoutViewController.m */; };
 		D7B3B3CB1AF9E04B009062F5 /* TextKitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B3B3CA1AF9E04B009062F5 /* TextKitViewController.m */; };
 		D7B3B3CE1AF9F590009062F5 /* UserInterfaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B3B3CD1AF9F590009062F5 /* UserInterfaceViewController.m */; };
 		D7B3B3D11AFA0606009062F5 /* ObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B3B3D01AFA0606009062F5 /* ObjectTest.m */; };
@@ -104,6 +105,8 @@
 		D78D54FD1B2D49CA006C4200 /* controllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = controllerViewController.m; sourceTree = "<group>"; };
 		D79623D21B26D81000573544 /* SuperCoolSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperCoolSegue.h; sourceTree = "<group>"; };
 		D79623D31B26D81000573544 /* SuperCoolSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperCoolSegue.m; sourceTree = "<group>"; };
+		D7B308311B31754200863361 /* autoLayoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autoLayoutViewController.h; sourceTree = "<group>"; };
+		D7B308321B31754200863361 /* autoLayoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = autoLayoutViewController.m; sourceTree = "<group>"; };
 		D7B3B3C91AF9E04B009062F5 /* TextKitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextKitViewController.h; sourceTree = "<group>"; };
 		D7B3B3CA1AF9E04B009062F5 /* TextKitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextKitViewController.m; sourceTree = "<group>"; };
 		D7B3B3CC1AF9F590009062F5 /* UserInterfaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInterfaceViewController.h; sourceTree = "<group>"; };
@@ -234,6 +237,8 @@
 				D78D54FD1B2D49CA006C4200 /* controllerViewController.m */,
 				D753008A1B01E23F00343855 /* CollectionViewController.h */,
 				D753008B1B01E23F00343855 /* CollectionViewController.m */,
+				D7B308311B31754200863361 /* autoLayoutViewController.h */,
+				D7B308321B31754200863361 /* autoLayoutViewController.m */,
 				D7B3B3CC1AF9F590009062F5 /* UserInterfaceViewController.h */,
 				D7B3B3CD1AF9F590009062F5 /* UserInterfaceViewController.m */,
 			);
@@ -458,6 +463,7 @@
 				D79623D41B26D81000573544 /* SuperCoolSegue.m in Sources */,
 				D720346C1B084CBB009E4CA4 /* UIAlertView+MKNetworkKitAdditions.m in Sources */,
 				D7D5CE381AF7B293009F5EC5 /* main.m in Sources */,
+				D7B308331B31754200863361 /* autoLayoutViewController.m in Sources */,
 				D720346D1B084CBB009E4CA4 /* UIImageView+MKNetworkKitAdditions.m in Sources */,
 				D75BA9771B00802F00C4EB78 /* iOSBookTest.m in Sources */,
 				D720346F1B084CBB009E4CA4 /* MKNetworkOperation.m in Sources */,

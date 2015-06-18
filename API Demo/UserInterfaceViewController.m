@@ -327,7 +327,7 @@
     /*说明：创建UIButton对象
      
      */
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
     /*说明：设置按钮文本标题
      
@@ -532,6 +532,27 @@
      
      */
     [[self navigationItem] setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title.png"]]];
+    
+    /**
+     
+     设置导航栏右按钮
+    
+     */
+    UIBarButtonItem *barButtonAction = [[UIBarButtonItem alloc] initWithTitle:@"Delete Numbers > 2"
+                                                                        style:UIBarButtonItemStylePlain
+                                                                       target:self
+                                                                       action:@selector(navigationItemTest:)];
+    [self.navigationItem setRightBarButtonItem:barButtonAction animated:NO];
+    
+    /**
+     *  去掉导航栏的右按钮
+     */
+    [self.navigationItem setRightBarButtonItem:nil animated:YES];
+}
+
+- (void)navigationItemTest:(id)paramSender {
+    
+    
 }
 
 #pragma mark - 分页控制 UIPageControl
@@ -1441,6 +1462,10 @@
 //    UINib *topNib = [UINib nibWithNibName:REUSE_ID_TOP bundle:classBundle];
 //    [[self tableView] registerNib:topNib forCellReuseIdentifier:REUSE_ID_TOP];
 }
+
+#pragma mark - 
+
+
 
 #pragma mark -
 

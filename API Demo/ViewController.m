@@ -130,4 +130,12 @@
     }
 }
 
+/**
+ *  我们需要确保我们的视图控制器会告诉运行进行时它将会能够处理所有的方向
+ */
+- (NSUInteger) supportedInterfaceOrientations{
+    
+    return UIInterfaceOrientationMaskAll;
+}
+
 @end
