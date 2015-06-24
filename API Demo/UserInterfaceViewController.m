@@ -1425,6 +1425,42 @@
     //self.textView.contentInset = UIEdgeInsetsZero;
 }
 
+#pragma mark - 状态栏 StatusBar
+
+- (void)BarTest {
+    
+    /**
+     *
+     
+     状态栏 20
+     导航栏 44
+     工具栏 44
+     标签栏 49
+     
+     iOS 7情况下，这些栏变成半透明，背景图片可以不需要考虑这些栏造成的影响。
+     
+     */
+    
+    /**
+     *
+     隐藏状态栏
+     在Info.plist文件中加入
+     View controller-based status bar appearance
+     设置值为NO，就可以在全局状态下控制状态栏是否隐藏。
+     
+     然后在单个视图控制器中调用：
+     */
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    
+    /**
+     *
+     设置状态栏风格
+     UIStatusBarStyleDefault。默认的黑色文字。
+     UIStatusBarStyleLightContent。白色文字。
+     */
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+}
+
 #pragma mark - storyboard 故事板 和 Xib
 
 - (void)storyboardTest {
@@ -1463,8 +1499,75 @@
 //    [[self tableView] registerNib:topNib forCellReuseIdentifier:REUSE_ID_TOP];
 }
 
-#pragma mark - 
+#pragma mark - GestureRecognizer
 
+- (void)gestureRecognizerTest {
+    
+    /**
+     轻扫手势
+     
+     */
+    UISwipeGestureRecognizer *swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc]
+                                                        initWithTarget:self
+                                                        action:@selector(handleSwipes:)];
+    /* Swipes that are performed from right to left are to be detected */
+    swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight;
+    /* Just one finger needed */
+    swipeGestureRecognizer.numberOfTouchesRequired = 1;
+    /* Add it to the view */
+    [self.view addGestureRecognizer:swipeGestureRecognizer];
+    
+    /**
+     旋转手势
+     
+     */
+    UIRotationGestureRecognizer *rotationGestureRecognizer = [[UIRotationGestureRecognizer alloc]
+                                                              initWithTarget:self
+                                                              action:@selector(handleRotations:)];
+    [self.view addGestureRecognizer:rotationGestureRecognizer];
+}
+
+- (void)handleSwipes:(UISwipeGestureRecognizer *)paramSender {
+    
+    if (paramSender.direction & UISwipeGestureRecognizerDirectionDown) {
+        
+        NSLog(@"Swiped Down.");
+    }
+    if (paramSender.direction & UISwipeGestureRecognizerDirectionLeft) {
+        
+        NSLog(@"Swiped Left.");
+    }
+    if (paramSender.direction & UISwipeGestureRecognizerDirectionRight) {
+        
+        NSLog(@"Swiped Right.");
+    }
+    if (paramSender.direction & UISwipeGestureRecognizerDirectionUp) {
+        
+        NSLog(@"Swiped Up.");
+    }
+}
+
+- (void)handleRotations:(UIRotationGestureRecognizer *)paramSender {
+    
+    UILabel *helloWorldLabel = [[UILabel alloc] initWithFrame:CGRectZero];//要改成成员变量，而不是临时变量
+    CGFloat rotationAngleInRadians = 0;//要改成成员变量，而不是临时变量
+    
+    if (helloWorldLabel == nil){
+        return;
+    }
+    
+    /* Take the previous rotation and add the current rotation to it */
+    helloWorldLabel.transform = CGAffineTransformMakeRotation(rotationAngleInRadians + paramSender.rotation);
+    
+    /* At the end of the rotation, keep the angle for later use */
+    if (paramSender.state == UIGestureRecognizerStateEnded) {
+        
+        rotationAngleInRadians += paramSender.rotation;
+    }
+    
+}
+
+#pragma mark -
 
 
 #pragma mark -

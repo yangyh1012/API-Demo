@@ -26,7 +26,7 @@
                     <navigationItem key="navigationItem" id="P1v-qM-dgL">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="AeQ-ML-sjw">
                             <connections>
-                                <segue destination="pz1-dE-bG2" kind="presentation" id="J9N-c1-qXZ"/>
+                                <segue destination="pz1-dE-bG2" kind="presentation" identifier="viewcontrollerSegue" id="J9N-c1-qXZ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

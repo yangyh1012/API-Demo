@@ -50,6 +50,13 @@
     
 }
 
+/**
+ *  提供给测试工程使用
+ *
+ *  @param string 小数的字符串
+ *
+ *  @return 含1位小数点的字符串
+ */
 - (NSString *)testValue:(NSString *)string {
     
     double d = [string doubleValue];
@@ -122,6 +129,10 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
+    NSLog(@"Source Controller = %@", [segue sourceViewController]);
+    NSLog(@"Destination Controller = %@", [segue destinationViewController]);
+    NSLog(@"Segue Identifier = %@", [segue identifier]);
+    
     if ([segue.identifier isEqualToString:@"viewcontrollerSegue"]) {
         
         //UINavigationController *navigationController = segue.destinationViewController;
@@ -133,7 +144,7 @@
 /**
  *  我们需要确保我们的视图控制器会告诉运行进行时它将会能够处理所有的方向
  */
-- (NSUInteger) supportedInterfaceOrientations{
+- (NSUInteger)supportedInterfaceOrientations {
     
     return UIInterfaceOrientationMaskAll;
 }

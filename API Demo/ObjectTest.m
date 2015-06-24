@@ -205,10 +205,10 @@ static ObjectTest *sharedManager = nil;
      
      */
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                               target:self
-                                             selector:@selector(download)
-                                             userInfo:nil
-                                              repeats:YES];
+                                                      target:self
+                                                    selector:@selector(download)
+                                                    userInfo:nil
+                                                     repeats:YES];
     
     /*说明：停止计时器
      
@@ -219,6 +219,48 @@ static ObjectTest *sharedManager = nil;
      *  5秒后执行pushSecondController方法。
      */
     [self performSelector:@selector(pushSecondController) withObject:nil afterDelay:5.0f];
+    
+    //================================================================================================
+    
+    SEL selectorToCall = @selector(download);
+    NSMethodSignature *methodSignature = [[self class] instanceMethodSignatureForSelector:selectorToCall];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
+    [invocation setTarget:self];
+    [invocation setSelector:selectorToCall];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                         invocation:invocation
+                                            repeats:YES];
+    
+    //================================================================================================
+    
+    /**
+     *  创建一个未被调度的计时器
+     *
+     */
+    timer = [NSTimer timerWithTimeInterval:1.0
+                                    target:self
+                                  selector:@selector(download)
+                                  userInfo:nil
+                                   repeats:YES];
+    
+    /**
+     *  NSRunLoop 的类方法currentRunLoop 和mainRunLoop 将各自返回程序的当前
+     *  和主要的事件处理循环
+     */
+    [[NSRunLoop currentRunLoop] addTimer:timer
+                                 forMode:NSDefaultRunLoopMode];
+    
+    //================================================================================================
+    
+    /**
+     *  创建一个未被调度的计时器
+     */
+    timer  = [NSTimer timerWithTimeInterval:1.0
+                                 invocation:invocation
+                                    repeats:YES];;
+
+    [[NSRunLoop currentRunLoop] addTimer:timer
+                                 forMode:NSDefaultRunLoopMode];
 }
 
 - (void)download {
@@ -230,7 +272,7 @@ static ObjectTest *sharedManager = nil;
     
 }
 
-#pragma mark - 通知机制 notification
+#pragma mark - notification通知机制
 
 - (void)notificationTest {
     
@@ -741,7 +783,7 @@ const NSString *ResultOfAppendingTwoStringsNotification = @"ResultOfAppendingTwo
 //    [self reloadView:dict];
 }
 
-#pragma mark - MKNetworkKit
+#pragma mark - MKNetworkKit网络请求
 
 /**
  *  
@@ -933,7 +975,7 @@ const NSString *ResultOfAppendingTwoStringsNotification = @"ResultOfAppendingTwo
     }
 }
 
-#pragma mark - 判断系统版本号
+#pragma mark - version判断系统版本号
 
 - (void)versionTest {
     
@@ -949,42 +991,6 @@ const NSString *ResultOfAppendingTwoStringsNotification = @"ResultOfAppendingTwo
      *  判断iOS系统的版本号
      */
     NSLog(@" iOS System Version  = %@",[[UIDevice currentDevice] systemVersion]);
-}
-
-#pragma mark - 栏
-
-- (void)BarTest {
-    
-    /**
-     *  
-     
-     状态栏 20
-     导航栏 44
-     工具栏 44
-     标签栏 49
-     
-     iOS 7情况下，这些栏变成半透明，背景图片可以不需要考虑这些栏造成的影响。
-     
-     */
-    
-    /**
-     *  
-     隐藏状态栏
-     在Info.plist文件中加入
-     View controller-based status bar appearance
-     设置值为NO，就可以在全局状态下控制状态栏是否隐藏。
-     
-     然后在单个视图控制器中调用：
-     */
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    
-    /**
-     *  
-     设置状态栏风格
-     UIStatusBarStyleDefault。默认的黑色文字。
-     UIStatusBarStyleLightContent。白色文字。
-     */
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 }
 
 #pragma mark - ARC与MRC
@@ -1128,9 +1134,101 @@ const NSString *ResultOfAppendingTwoStringsNotification = @"ResultOfAppendingTwo
             // do stuff with strongSelf
         }
     };
-    
     block();
+    
+    /* 1 两数相减*/
+    NSInteger (^subtract)(NSInteger,NSInteger) = ^(NSInteger paramValue,NSInteger paramFrom) {
+        
+        return paramFrom - paramValue;
+    };
+    subtract(1,2);
+    
+    /* 2 带参数的block */
+    NSString *(^intToString)(NSUInteger) = ^(NSUInteger paramInteger) {
+        
+        return @"";
+    };
+    NSString *string = intToString(10);
+    NSLog(@"string = %@", string);
+    
+    /* 3 不带参数的block */
+    void (^simpleBlock)(void) = ^{
+        
+        
+    };
+    simpleBlock();
+    
+    /* 4 __block修饰的block */
+    __block NSUInteger outsideVariable = 10;
+    NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:@"obj1",@"obj2", nil];
+    [array sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        
+        outsideVariable = 20;
+        
+        NSLog(@"%@",self.testStr);
+        
+        return NSOrderedSame;
+    }];
+    
+    /* 5 block的定义和调用 */
+    IntToStringConverter inlineConverter = ^(NSUInteger paramInteger) {
+        
+        return @"";
+    };
+    [self convertIntToString:1 usingBlockObject:inlineConverter];
+    [self convertIntToString:1 usingBlockObject:^NSString *(NSUInteger paramInteger) {
+        
+        return @"";
+    }];
+    
+    /* 6 调用self的block */
+    correctBlockObject(self);
+    
+    /* 7 数值不变的block */
+    NSUInteger integerValue = 10;
+    void (^BlockWithNoParams)(void) = ^{
+        
+        NSLog(@"%lu",(unsigned long)integerValue);
+    };
+    integerValue = 20;
+    BlockWithNoParams();
+    NSLog(@"%lu",(unsigned long)integerValue);
+    
+    /* 8 block中调用block */
+    NSString *trimmedString = trimWithOtherBlock(@" O'Reilly ");
+    NSLog(@"Trimmed string = %@",trimmedString);
 }
+
+//===================
+
+typedef NSString *(^IntToStringConverter)(NSUInteger paramInteger);
+
+- (NSString *)convertIntToString:(NSUInteger)paramInteger usingBlockObject:(IntToStringConverter)paramBlockObject {
+    
+    return paramBlockObject(paramInteger);
+}
+
+//===================
+
+void (^correctBlockObject)(id) = ^(id self){
+    
+    [self setTestStr:@"123"];
+    [self testStr];
+    NSLog(@"%@",self);
+};
+
+//===================
+
+NSString *(^trimString)(NSString *) = ^(NSString *inputString) {
+    
+    NSString *result = [inputString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    return result;
+};
+
+NSString *(^trimWithOtherBlock)(NSString *) = ^(NSString *inputString) {
+  
+    return trimString(inputString);
+};
 
 #pragma mark - Bundle
 

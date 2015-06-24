@@ -13,4 +13,6 @@
  */
 @interface ObjectTest : NSObject<NSURLConnectionDelegate>
 
+@property (nonatomic,copy) NSString *testStr;
+
 @end
