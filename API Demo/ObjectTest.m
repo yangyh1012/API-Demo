@@ -638,6 +638,77 @@ const NSString *ResultOfAppendingTwoStringsNotification = @"ResultOfAppendingTwo
     NSString *text = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
     
     NSLog(@"%@",text);
+    
+    /**
+     *  把Array 和Dictionaries 序列化成JSON 对象
+     */
+    NSMutableDictionary *dictionary =
+    [NSMutableDictionary dictionaryWithDictionary:@{
+                                                    @"First Name" : @"Anthony",
+                                                    @"Last Name" : @"Robbins",
+                                                    @"Age" : @51
+                                                    }];
+    NSArray *arrayOfAnthonysChildren = @[
+                                         @"Anthony's Son 1",
+                                         @"Anthony's Daughter 1",
+                                         @"Anthony's Son 2",
+                                         @"Anthony's Son 3",
+                                         @"Anthony's Daughter 2"
+                                         ];
+    [dictionary setValue:arrayOfAnthonysChildren forKey:@"children"];
+    
+    NSError *error3 = nil;
+    NSData *jsonData3 = [NSJSONSerialization
+                        dataWithJSONObject:dictionary
+                        options:NSJSONWritingPrettyPrinted
+                        error:&error3];
+    if ([jsonData3 length] > 0 && error3 == nil) {
+        
+        NSLog(@"Successfully serialized the dictionary into data = %@",jsonData);
+        
+        //打印json内容
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData
+                                                     encoding:NSUTF8StringEncoding];
+        NSLog(@"JSON String = %@", jsonString);
+        
+        
+        id jsonObject = [NSJSONSerialization
+                         JSONObjectWithData:jsonData
+                         options:NSJSONReadingAllowFragments
+                         error:&error];
+        if (jsonObject != nil && error == nil) {
+            
+            NSLog(@"Successfully deserialized...");
+            if ([jsonObject isKindOfClass:[NSDictionary class]]) {
+                
+                NSDictionary *deserializedDictionary = (NSDictionary *)jsonObject;
+                NSLog(@"Deserialized JSON Dictionary = %@", deserializedDictionary);
+            } else if ([jsonObject isKindOfClass:[NSArray class]]) {
+                
+                NSArray *deserializedArray = (NSArray *)jsonObject;
+                NSLog(@"Deserialized JSON Array = %@", deserializedArray);
+            } else {
+            /* Some other object was returned. We don't know how to deal
+             with this situation as the deserializer only returns dictionaries
+             or arrays */
+            }
+        }
+        else if (error != nil){
+            NSLog(@"An error happened while deserializing the JSON data.");
+        }
+    }
+    else if ([jsonData length] == 0 && error == nil) {
+        
+        NSLog(@"No data was returned after serialization.");
+    }
+    else if (error != nil) {
+        
+        NSLog(@"An error happened = %@", error);
+    }
+    
+    /**
+     *  把JSON 数据反序列化为Arrays 和Dictionaries
+     */
 }
 
 /**
@@ -676,7 +747,7 @@ const NSString *ResultOfAppendingTwoStringsNotification = @"ResultOfAppendingTwo
     });
 }
 
-#pragma mark - request请求
+#pragma mark - request请求 网络 NSURLConnection请求
 
 - (void)requestTest {
     
@@ -700,18 +771,110 @@ const NSString *ResultOfAppendingTwoStringsNotification = @"ResultOfAppendingTwo
      
      */
     NSString *strURL = [[NSString alloc] initWithFormat:@"http://m.weather.com.cn/data/101010100.html"];
-    NSURL *url = [NSURL URLWithString:[strURL URLEncodedString]];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    NSData *data  = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    NSLog(@"请求完成... %@",data);
+    NSURL *url2 = [NSURL URLWithString:[strURL URLEncodedString]];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url2];
+    NSData *data2  = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];//创建同步请求
+    NSLog(@"请求完成... %@",data2);
+    
+    //阻塞主线程的同步请求
+    NSString *urlAsString = @"http://www.yahoo.com";
+    NSURL *url = [NSURL URLWithString:urlAsString];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+    NSURLResponse *response = nil;
+    NSError *error = nil;
+    NSLog(@"Firing synchronous url connection...");
+    NSData *data = [NSURLConnection sendSynchronousRequest:urlRequest
+                                         returningResponse:&response
+                                                     error:&error];
+    if ([data length] > 0 && error == nil) {
+        
+        NSLog(@"%lu bytes of data was returned.", (unsigned long)[data length]);
+    }
+    else if ([data length] == 0 && error == nil) {
+        
+        NSLog(@"No data was returned.");
+    }
+    else if (error != nil) {
+        
+        NSLog(@"Error happened = %@", error);
+    }
+    NSLog(@"We are done.");
+    
+    //不会阻塞主线程的同步请求
+    dispatch_queue_t dispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(dispatchQueue, ^(void) {
+        
+        NSURL *url = [NSURL URLWithString:urlAsString];
+        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+        NSURLResponse *response = nil;
+        NSError *error = nil;
+        NSData *data = [NSURLConnection sendSynchronousRequest:urlRequest
+                                             returningResponse:&response
+                                                         error:&error];
+        if ([data length] > 0 && error == nil) {
+            
+            NSLog(@"%lu bytes of data was returned.", (unsigned long)[data length]);
+        }
+        else if ([data length] == 0 && error == nil) {
+            
+            NSLog(@"No data was returned.");
+        }
+        else if (error != nil) {
+            
+            NSLog(@"Error happened = %@", error);
+        }
+    });
+    NSLog(@"We are done.");
+    
+    
+    //异步请求
+//    NSString *urlAsString = @"http://www.apple.com";
+//    NSURL *url = [NSURL URLWithString:urlAsString];
+//    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+    
+    //最大限度的等待30 秒，超时时间
+    NSURLRequest *urlRequest2 = [NSURLRequest requestWithURL:url
+                                                 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                             timeoutInterval:30.0f];
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    [NSURLConnection sendAsynchronousRequest:urlRequest queue:queue completionHandler:^(NSURLResponse *response,
+                                                                                        NSData *data,
+                                                                                        NSError *error) {
+         
+         if ([data length] > 0 && error == nil) {
+             
+             NSString *html = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+             NSLog(@"HTML = %@", html);
+             
+             /* Get the documents directory */
+             NSString *documentsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                                           NSUserDomainMask,
+                                                                           YES) objectAtIndex:0];
+             /* Append the file name to the documents directory */
+             NSString *filePath = [documentsDir stringByAppendingPathComponent:@"apple.html"];
+             /* Write the data to the file */
+             [data writeToFile:filePath atomically:YES];
+             NSLog(@"Successfully saved the file to %@", filePath);
+         }
+         else if ([data length] == 0 && error == nil) {
+             
+             NSLog(@"Nothing was downloaded.");
+         }
+         else if (error != nil) {
+             
+             NSLog(@"Error happened = %@", error);
+         }
+     }];
+    NSLog(@"urlRequest2 %@",urlRequest2);
+    
     
     /**
      异步请求sendAsynchronousRequest
      
      */
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    NSOperationQueue *queue2 = [[NSOperationQueue alloc] init];
     [NSURLConnection sendAsynchronousRequest:request
-                                       queue:queue
+                                       queue:queue2
                            completionHandler:^(NSURLResponse* response, NSData* data, NSError* error) {
                                NSLog(@"请求完成... %@",data);
                                
@@ -720,9 +883,44 @@ const NSString *ResultOfAppendingTwoStringsNotification = @"ResultOfAppendingTwo
                                                                                          error:nil];
                                NSLog(@"%@",resDict);
                            }];
+    
+    
+    //NSMutableURLRequest
+    NSMutableURLRequest *mutableUrlRequest = [NSMutableURLRequest new];
+    [mutableUrlRequest setTimeoutInterval:30.0f];
+    [mutableUrlRequest setURL:url];
+    
+    //通过HTTP协议向服务器发送一个GET请求
+    NSString *urlAsString5 = @"http://pixolity.com/get.php";
+    urlAsString5 = [urlAsString5 stringByAppendingString:@"?param1=First"];
+    urlAsString5 = [urlAsString5 stringByAppendingString:@"&param2=Second"];
+    NSURL *url5 = [NSURL URLWithString:urlAsString5];
+    NSMutableURLRequest *urlRequest5 = [NSMutableURLRequest requestWithURL:url5];
+    [urlRequest5 setTimeoutInterval:30.0f];
+    [urlRequest5 setHTTPMethod:@"GET"];
+    NSOperationQueue *queue5 = [[NSOperationQueue alloc] init];
+    [NSURLConnection sendAsynchronousRequest:urlRequest5 queue:queue5 completionHandler:^(NSURLResponse *response,
+                                                                                          NSData *data,
+                                                                                          NSError *error) {
+        
+     }];
+    
+    //通过HTTP协议向服务器发送一个POST请求
+    [urlRequest5 setTimeoutInterval:30.0f];
+    [urlRequest5 setHTTPMethod:@"POST"];
+    [urlRequest5 setHTTPMethod:@"DELETE"];//通过NSURLConnection 发生一个HTTP DELETE 请求，删除一个资源
+    [urlRequest5 setHTTPMethod:@"PUT"];//通过NSURLConnection 发送一个HTTP PUT 请求，放置一些资源
+    NSString *body5 = @"bodyParam1=BodyValue1&bodyParam2=BodyValue2";
+    [urlRequest5 setHTTPBody:[body5 dataUsingEncoding:NSUTF8StringEncoding]];
+    NSOperationQueue *queue6 = [[NSOperationQueue alloc] init];
+    [NSURLConnection sendAsynchronousRequest:urlRequest5 queue:queue6 completionHandler:^(NSURLResponse *response,
+                                                                                          NSData *data,
+                                                                                          NSError *error) {
+
+     }];
 }
 
-#pragma mark - NSURLConnection请求
+//===================================================================================================
 
 /**
  *  NSURLConnection异步的get请求

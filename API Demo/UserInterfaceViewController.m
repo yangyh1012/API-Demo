@@ -505,6 +505,11 @@
      */
     label.lineBreakMode = NSLineBreakByWordWrapping;
     
+    /**
+     *  事件可以正常的传递给该视图对象
+     */
+    label.userInteractionEnabled = YES;
+    
     yyhViewAddSubview(label);
 }
 
@@ -1525,6 +1530,55 @@
                                                               initWithTarget:self
                                                               action:@selector(handleRotations:)];
     [self.view addGestureRecognizer:rotationGestureRecognizer];
+    
+    /**
+     拖动手势
+     
+     */
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc]
+                                                    initWithTarget:self
+                                                    action:@selector(handlePanGestures:)];
+    /* At least and at most we need only one finger to activate
+     the pan gesture recognizer */
+    panGestureRecognizer.minimumNumberOfTouches = 1;
+    panGestureRecognizer.maximumNumberOfTouches = 1;
+    
+    /**
+     长按手势
+     
+     */
+    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc]
+                                                                initWithTarget:self
+                                                                action:@selector(handleLongPressGestures:)];
+    //所需触摸2次
+    longPressGestureRecognizer.numberOfTouchesRequired = 2;
+    //允许100秒中运动
+    longPressGestureRecognizer.allowableMovement = 100.0f;
+    //长按时间为1秒
+    longPressGestureRecognizer.minimumPressDuration = 1.0;
+    
+    /**
+     轻击手势
+     
+     */
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]
+                                                    initWithTarget:self
+                                                    action:@selector(handleTaps:)];
+    //需要两个手指同时来完成动作
+    tapGestureRecognizer.numberOfTouchesRequired = 2;
+    //我们需要连续的点击三次
+    tapGestureRecognizer.numberOfTapsRequired = 3;
+    /* Add this gesture recognizer to the view */
+    [self.view addGestureRecognizer:tapGestureRecognizer];
+    
+    /**
+     捏合手势
+     
+     */
+    UIPinchGestureRecognizer *pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc]
+                                                        initWithTarget:self
+                                                        action:@selector(handlePinches:)];
+    [self.view addGestureRecognizer:pinchGestureRecognizer];
 }
 
 - (void)handleSwipes:(UISwipeGestureRecognizer *)paramSender {
@@ -1564,7 +1618,78 @@
         
         rotationAngleInRadians += paramSender.rotation;
     }
+}
+
+- (void)handlePanGestures:(UIPanGestureRecognizer*)paramSender {
     
+    /**
+     *  
+     
+     1. UIGestureRecognizerStateBegan
+     2. UIGestureRecognizerStateChanged
+     3. UIGestureRecognizerStateEnded
+     
+     */
+    if (paramSender.state != UIGestureRecognizerStateEnded &&
+        paramSender.state != UIGestureRecognizerStateFailed) {
+        
+        /**
+         *  获取到我们手势的坐标
+         */
+        CGPoint location = [paramSender locationInView:paramSender.view.superview];
+        paramSender.view.center = location;
+    }
+}
+
+- (void)handleLongPressGestures:(UILongPressGestureRecognizer *)paramSender {
+    
+    if ([paramSender isEqual:paramSender]) {
+        
+        if (paramSender.numberOfTouchesRequired == 2) {
+            
+            CGPoint touchPoint1 = [paramSender locationOfTouch:0 inView:paramSender.view];
+            CGPoint touchPoint2 = [paramSender locationOfTouch:1 inView:paramSender.view];
+            CGFloat midPointX = (touchPoint1.x + touchPoint2.x) / 2.0f;
+            CGFloat midPointY = (touchPoint1.y + touchPoint2.y) / 2.0f;
+            CGPoint midPoint = CGPointMake(midPointX, midPointY);
+            self.view.center = midPoint;
+        } else {
+            /* This is a long press gesture recognizer with more
+             or less than 2 fingers */
+        }
+    }
+}
+
+- (void)handleTaps:(UITapGestureRecognizer*)paramSender {
+    
+    NSUInteger touchCounter = 0;
+    for (touchCounter = 0; touchCounter < paramSender.numberOfTouchesRequired;touchCounter++) {
+        
+        CGPoint touchPoint = [paramSender locationOfTouch:touchCounter inView:paramSender.view];
+        
+        /**
+         *  NSStringFromCGPoint
+         *  把一个物理的位置信息CGPoint 转化成一个NSString 类型的数据。
+         *
+         */
+        NSLog(@"Touch #%lu: %@",(unsigned long)touchCounter+1,NSStringFromCGPoint(touchPoint));
+    }
+}
+
+- (void)handlePinches:(UIPinchGestureRecognizer *)paramSender {
+    
+    CGFloat currentScale;
+    if (paramSender.state == UIGestureRecognizerStateEnded) {
+        
+        currentScale = paramSender.scale;
+    } else if (paramSender.state == UIGestureRecognizerStateBegan && currentScale != 0.0f) {
+        
+        paramSender.scale = currentScale;
+    }
+    if (paramSender.scale != NAN && paramSender.scale != 0.0){
+        
+        paramSender.view.transform = CGAffineTransformMakeScale(paramSender.scale,paramSender.scale);
+    }
 }
 
 #pragma mark -

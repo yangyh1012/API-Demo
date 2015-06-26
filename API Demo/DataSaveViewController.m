@@ -9,11 +9,12 @@
 #import "DataSaveViewController.h"
 #import "sqlite3.h"
 #import <AudioToolbox/AudioServices.h>
+#import <AVFoundation/AVFoundation.h>
 
 /*说明：
  
  */
-@interface DataSaveViewController ()
+@interface DataSaveViewController ()<AVAudioPlayerDelegate>
 
 @end
 
@@ -547,6 +548,54 @@
      *  释放资源，清理声音对象
      */
     AudioServicesDisposeSystemSoundID(theSoundID);
+}
+
+/**
+ *  AVFoundation.framework 和 MediaPlayer.framework
+ */
+- (void)musicTest3 {
+    
+    dispatch_queue_t dispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(dispatchQueue, ^(void) {
+        
+        NSBundle *mainBundle = [NSBundle mainBundle];
+        NSString *filePath = [mainBundle pathForResource:@"MySong" ofType:@"mp3"];
+        NSData *fileData = [NSData dataWithContentsOfFile:filePath];
+        NSError *error = nil;
+        /* Start the audio player */
+        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:fileData error:&error];
+        /* Did we get an instance of AVAudioPlayer? */
+        if (audioPlayer != nil){
+            /* Set the delegate and start playing */
+            audioPlayer.delegate = self;
+            if ([audioPlayer prepareToPlay] &&
+                [audioPlayer play]){
+                /* Successfully started playing */
+            } else {
+                /* Failed to play */
+            }
+        } else {
+            /* Failed to instantiate AVAudioPlayer */
+        }
+    });
+}
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    
+    NSLog(@"Finished playing the song");
+    
+    /* The [flag] parameter tells us if the playback was successfully
+     finished or not */
+    
+    AVAudioPlayer *audioPlayer;
+    if ([player isEqual:audioPlayer]){
+        
+        audioPlayer = nil;
+    } else {
+        
+        /* Which audio player is this? We certainly didn't allocate
+         this instance! */
+    }
 }
 
 #pragma mark - 图片 处理  图片处理 图片、图像视图
