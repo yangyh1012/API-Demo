@@ -356,6 +356,37 @@
     NSLog(@"Found %@ in the set", string);
 }
 
+#pragma mark - NSDate、NSData
+
+- (void)dateAndData {
+    
+    //NSDate
+    NSDate *date = [NSDate date];
+    NSLog(@"today is %@",date);
+    //对于过去的时间，使用负的时间间隔。
+    NSDate *yesterday = [NSDate dateWithTimeIntervalSinceNow:-(24 * 60 * 60)];
+    NSLog(@"yesterday is %@",yesterday);
+    
+    //NSData、NSMutableData
+    const char *string = "Hi there,this is a C string";
+    NSData *data = [NSData dataWithBytes:string length:strlen(string) + 1];
+    NSLog(@"data is %@",data);
+    NSLog(@"%ld byte string is '%s'",(unsigned long)[data length],[data bytes]);
+}
+
+- (void)dateTest {
+    
+    /**
+     *  NSDate 时差8小时解决方法
+     *
+     */
+    NSDate *date = [NSDate date];
+    NSTimeZone *zone = [NSTimeZone systemTimeZone];
+    NSInteger interval = [zone secondsFromGMTForDate: date];
+    NSDate *localeDate = [date  dateByAddingTimeInterval: interval];
+    NSLog(@"%@", localeDate);
+}
+
 #pragma mark - value
 
 - (void)valueTest {
@@ -398,7 +429,7 @@
      *  在mac主目录上查找以jpg结尾的文件目录字符串。
      */
     NSFileManager *manager;
-    manager = [NSFileManager defaultManager];
+    manager = [NSFileManager defaultManager];//不是线程安全
     
     NSString *home;
     home = [@"~"stringByExpandingTildeInPath];

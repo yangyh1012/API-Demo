@@ -15,4 +15,8 @@
 
 @property (nonatomic,copy) NSString *testStr;
 
+@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
+
+@property (nonatomic, strong) NSTimer *myTimer;
+
 @end

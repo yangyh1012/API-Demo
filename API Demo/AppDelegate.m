@@ -43,6 +43,10 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    //接收本地通知的委托方法
+}
+
 #pragma mark - UI状态保持和恢复
 
 /*说明：

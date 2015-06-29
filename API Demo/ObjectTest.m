@@ -286,6 +286,44 @@ static ObjectTest *sharedManager = nil;
                                              selector:@selector(handleTerminate:)
                                                  name:@"AppWillTerminateNotification"
                                                object:nil];
+    
+    /**
+     *
+     *  可以检测到设备最近一次方向变化。
+     
+     NSCurrentLocaleDidChangeNotification
+     这个通知在用户改变区域设置时发送，比如，用户在设备的设置页，将iOS 设备的语言
+     从英文改为西班牙文。
+     
+     UIDeviceBatteryStateDidChangeNotification
+     这个通知在iOS 设备上的电池状态变化时都会被发送。比如，当程序在前台时设备被接
+     入到一台电脑，然后在后台被拔出时，程序会接收到这一通知（如果程序注册了此通知）。
+     电池状态可以使用UIDevice 的batteryState 属性获得。
+     
+     UIDeviceProximityStateDidChangeNotification
+     当接近感应器改变时会发送此通知。最后的状态可以通过UIDevice 的proximatyState 属
+     性获得。
+     
+     *
+     */
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+    
+    /**
+     *  
+     
+     NSUserDefaultsDidChangeNotification
+     这个通知在用户在iOS 设备的设置页(如果提供给用户任何设置项)改变了程序设置时触
+     发。
+     
+     *
+     */
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(settingsChanged:)
+                                                 name:NSUserDefaultsDidChangeNotification
+                                               object:nil];
 }
 
 - (void)appWillTerminateTest {
@@ -304,6 +342,17 @@ static ObjectTest *sharedManager = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AppWillTerminateNotification"
                                                         object:self
                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"1",@"2", nil]];
+}
+
+- (void)orientationChanged:(NSNotification *)paramNotification {
+    
+    NSLog(@"Orientation Changed");
+}
+
+- (void)settingsChanged:(NSNotification *)paramNotification {
+    
+    NSLog(@"Settings changed");
+    NSLog(@"Notification Object = %@", [paramNotification object]);
 }
 
 - (void)dealloc
@@ -1189,6 +1238,14 @@ const NSString *ResultOfAppendingTwoStringsNotification = @"ResultOfAppendingTwo
      *  判断iOS系统的版本号
      */
     NSLog(@" iOS System Version  = %@",[[UIDevice currentDevice] systemVersion]);
+    
+    /**
+     *  判断iOS系统的版本号
+     */
+    float sysVersion=[[UIDevice currentDevice]systemVersion].floatValue;
+    if (sysVersion >= 8.0) {
+    
+    }
 }
 
 #pragma mark - ARC与MRC
@@ -1540,7 +1597,365 @@ NSString *(^trimWithOtherBlock)(NSString *) = ^(NSString *inputString) {
     }
 }
 
-#pragma mark -
+#pragma mark - 多任务 后台 后台运行
+
+- (void)multitaskTest {
+    
+    if ([self isMultitaskingSupported]) {
+        
+        NSLog(@"Multitasking is supported.");
+        
+    } else {
+        
+        NSLog(@"Multitasking is not supported.");
+    }
+}
+
+/**
+ *  判断是否支持多任务
+ *
+ */
+- (BOOL)isMultitaskingSupported {
+    
+    BOOL result = NO;
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)]) {
+        
+        result = [[UIDevice currentDevice] isMultitaskingSupported];
+    }
+    return result;
+}
+
+//========================================================================================================================
+
+/**
+ *  程序进入前台时触发该方法
+ *
+ */
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    
+    if (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid){
+       
+        [self endBackgroundTask];
+    }
+}
+
+/**
+ *  程序进入后台时触发该方法
+ *
+ */
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    
+    if ([self isMultitaskingSupported] == NO) {
+        
+        return;
+    }
+    
+    self.myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f
+                                                    target:self
+                                                  selector:@selector(timerMethod:)
+                                                  userInfo:nil
+                                                   repeats:YES];
+    
+    /**
+     *  结束background_task任务
+     *
+     */
+    self.backgroundTaskIdentifier =
+    [application beginBackgroundTaskWithExpirationHandler:^(void) {
+        
+        [self endBackgroundTask];
+    }];
+}
+
+/**
+ *  程序进入后台时，会一直执行此方法
+ *
+ */
+- (void)timerMethod:(NSTimer *)paramSender {
+    
+    /**
+     *  获取设备后台处理时间，是个倒计时，大概3分钟，
+     *  这个属性指明了在完成任务前程序拥有多少秒。
+     */
+    NSTimeInterval backgroundTimeRemaining = [[UIApplication sharedApplication] backgroundTimeRemaining];
+    
+    if (backgroundTimeRemaining == DBL_MAX) {
+        
+        NSLog(@"Background Time Remaining = Undetermined");
+    } else {
+        
+        NSLog(@"Background Time Remaining = %.02f Seconds",backgroundTimeRemaining);
+    }
+}
+
+/**
+ *  当后台处理时间结束时调用这个方法
+ */
+- (void)endBackgroundTask {
+    
+    __weak ObjectTest *weakSelf = self;
+    
+    dispatch_queue_t mainQueue = dispatch_get_main_queue();
+    dispatch_async(mainQueue, ^(void) {
+        
+        ObjectTest *strongSelf = weakSelf;
+        if (strongSelf != nil) {
+            
+            [strongSelf.myTimer invalidate];//关闭计时器
+            [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];//结束任务
+            strongSelf.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+        }
+    });
+}
+
+/**
+ *  在plist文件中加入 Application does not run in background ，关闭多任务。
+ *  不支持多任务时，点击home键，先运行 applicationDidEnterBackground: 方法。
+ *  再运行 applicationWillTerminate: 这个方法。
+ */
+- (void)applicationWillTerminate:(UIApplication *)application {
+    
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - 本地推送 本地通知 UILocalNotification
+
+- (void)localNoticationTest {
+    
+    /**
+     *  在iOS8中要实现badge、alert和sound等都需要用户同意才能，因为这些都算做Notification“通知”，
+     *  为了防止有些应用动不动给用户发送“通知”骚扰用户，所以在iOS8时，要“通知”必须要用户同意才行。
+     */
+    float sysVersion = [[UIDevice currentDevice]systemVersion].floatValue;
+    if (sysVersion >= 8.0) {
+        
+        UIUserNotificationType type=UIUserNotificationTypeBadge | UIUserNotificationTypeAlert | UIUserNotificationTypeSound;
+        UIUserNotificationSettings *setting=[UIUserNotificationSettings settingsForTypes:type categories:nil];
+        [[UIApplication sharedApplication]registerUserNotificationSettings:setting];
+    }
+    
+    /**
+     *  放在didFinishLaunchingWithOptions方法中
+     */
+    NSDictionary *launchOptions;
+    id scheduledLocalNotification = [launchOptions valueForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    
+    if (scheduledLocalNotification != nil){
+        
+        /* We received a local notification while
+         our application wasn't running. You can now typecase the
+         ScheduledLocalNotification variable to UILocalNotification and
+         use it in your application */
+        
+        NSString *message = @"Local Notification Woke Us Up";
+        [[[UIAlertView alloc] initWithTitle:@"Notification"
+                                    message:message
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil, nil] show];
+        
+    } else {
+        
+        NSString *message =@"A new instant message is available. \
+        Would you like to read this message?";
+        
+        /* If a local notification didn't start our application,
+         then we start a new local notification */
+        
+        [self localNotificationWithMessage:message
+                         actionButtonTitle:@"Yes"
+                               launchImage:nil
+                          applicationBadge:1
+                            secondsFromNow:10.0f
+                                  userInfo:nil];
+        
+        message = @"A new Local Notification is set up \
+        to be displayed 10 seconds from now";
+        
+        [[[UIAlertView alloc] initWithTitle:@"Set Up"
+                                    message:message
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil, nil] show];
+        
+    }
+}
+
+- (BOOL)localNotificationWithMessage:(NSString *)paramMessage
+                   actionButtonTitle:(NSString *)paramActionButtonTitle
+                         launchImage:(NSString *)paramLaunchImage
+                    applicationBadge:(NSInteger)paramApplicationBadge
+                      secondsFromNow:(NSTimeInterval)paramSecondsFromNow
+                            userInfo:(NSDictionary *)paramUserInfo {
+    
+    if ([paramMessage length] == 0) {
+        
+        return NO;
+    }
+    
+    UILocalNotification *notification = [[UILocalNotification alloc] init];
+    
+    //设置提醒的文字内容
+    notification.alertBody = paramMessage;
+    notification.alertAction = paramActionButtonTitle;
+    
+    if ([paramActionButtonTitle length]> 0) {
+        /* Make sure we have the action button for the user to press
+         to open our application */
+        notification.hasAction = YES;
+    } else {
+        notification.hasAction = NO;
+    }
+    
+    /* Here you have a chance to change the launch image of your application
+     when the notification's action is viewed by the user */
+    notification.alertLaunchImage = paramLaunchImage;
+    
+    //设置重复间隔
+    notification.repeatInterval = kCFCalendarUnitDay;
+    
+    //通知提示音 使用默认的
+    notification.soundName= UILocalNotificationDefaultSoundName;
+    
+    //设置应用程序右上角的提醒个数
+    notification.applicationIconBadgeNumber ++;
+    
+    /* Change the badge number of the application once the notification is
+     presented to the user. Even if the user dismisses the notification,
+     the badge number of the application will change */
+    notification.applicationIconBadgeNumber = paramApplicationBadge;
+    
+    //设定通知的userInfo，用来标识该通知
+    notification.userInfo = paramUserInfo;
+    
+    /* We need to get the system time zone so that the alert view
+     will adjust its fire date if the user's time zone changes */
+    NSTimeZone *timeZone = [NSTimeZone systemTimeZone];
+    //使用系统时区
+    notification.timeZone = timeZone;
+    
+    /* Schedule the delivery of this notification x seconds from now */
+    NSDate *today = [NSDate date];
+
+    NSDate *fireDate = [today dateByAddingTimeInterval:paramSecondsFromNow];
+    
+    NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
+    
+    NSUInteger dateComponents =
+    NSCalendarUnitYear |
+    NSCalendarUnitMonth |
+    NSCalendarUnitDay |
+    NSCalendarUnitHour |
+    NSCalendarUnitMinute |
+    NSCalendarUnitSecond;
+    
+    NSDateComponents *components = [calendar components:dateComponents
+                                               fromDate:fireDate];
+    
+    /* Here you have a chance to change these components. That's why we
+     retrieved the components of the date in the first place. */
+    fireDate = [calendar dateFromComponents:components];
+    
+    //设置通知的提醒时间
+    notification.fireDate = fireDate;
+    
+    //取消所有进行中的本地通知的发送。
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    
+    //将通知添加到系统中
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+    
+    return YES;
+}
+
+/**
+ *  本地通知时间到时，触发该方法
+ *
+ */
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    
+    NSString *message = @"The Local Notification is delivered.";
+    
+    [[[UIAlertView alloc] initWithTitle:@"Local Notification"
+                                message:message
+                               delegate:nil
+                      cancelButtonTitle:@"OK"
+                      otherButtonTitles:nil, nil] show];
+    
+}
+
+#pragma mark - 保存和加载状态 保存和加载程序的状态
+
+/**
+ *  将用户的分数保存到磁盘
+ */
+- (void)saveUserScore {
+    /* Save the user score here */
+}
+
+/**
+ *  保存当前关卡的数据到磁盘。
+ */
+- (void)saveLevelToDisk {
+    /* Save the current level and the user's location on map to disk */
+}
+
+/**
+ *  将游戏引擎置为暂停状态
+ */
+- (void)pauseGameEngine {
+    /* Pause the game engine here */
+}
+
+- (void)loadUserScore {
+    /* Load the user's location back to memory */
+}
+
+- (void)loadLevelFromDisk {
+    /* Load the user's previous location on the map */
+}
+
+- (void)resumeGameEngine {
+    /* Resume the game engine here */
+}
+
+/**
+ *  要放在AppDelegate.m的文件中
+ *  来电时，应用会进入非激活状态，但不会进入后台，要注意
+ */
+- (void)applicationWillResignActive:(UIApplication *)application {
+    
+    [self pauseGameEngine];
+}
+
+/**
+ *  要放在AppDelegate.m的文件中
+ *  来电时，应用会进入非激活状态，但不会进入后台，要注意
+ */
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    
+    [self resumeGameEngine];
+}
+
+/**
+ *  要放在AppDelegate.m的文件中
+ */
+- (void)applicationDidEnterBackground2:(UIApplication *)application {
+    
+    [self saveUserScore];
+    [self saveLevelToDisk];
+    [self pauseGameEngine];
+}
+
+/**
+ *  要放在AppDelegate.m的文件中
+ */
+- (void)applicationWillEnterForeground2:(UIApplication *)application {
+    
+    [self loadUserScore];
+    [self loadLevelFromDisk];
+    [self resumeGameEngine];
+}
 
 
 
