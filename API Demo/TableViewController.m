@@ -284,23 +284,6 @@ static NSString *SectionEvenNumbers = @"Even Numbers";
     return cell;
 }
 
-/*说明：表头的重用
- 
- */
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
-    static NSString *headerReuseIdentifier =@"TableViewSectionHeaderViewIdentifier";
-    
-    UITableViewHeaderFooterView *sectionHeaderView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:headerReuseIdentifier];
-    
-    if (!sectionHeaderView) {
-        
-        sectionHeaderView = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:headerReuseIdentifier];
-    }
-    
-    return sectionHeaderView;
-}
-
 /**
  *  页眉内容
  *
@@ -342,6 +325,23 @@ static NSString *SectionEvenNumbers = @"Even Numbers";
 }
 
 #pragma mark - Table view delegate
+
+/*说明：表头的重用
+ 
+ */
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    static NSString *headerReuseIdentifier =@"TableViewSectionHeaderViewIdentifier";
+    
+    UITableViewHeaderFooterView *sectionHeaderView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:headerReuseIdentifier];
+    
+    if (!sectionHeaderView) {
+        
+        sectionHeaderView = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:headerReuseIdentifier];
+    }
+    
+    return sectionHeaderView;
+}
 
 /**
  *  点击详细按钮时触发的事件

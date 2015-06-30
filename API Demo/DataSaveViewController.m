@@ -1109,6 +1109,33 @@
      */
 }
 
+- (void)coreDataTest {
+    
+    /**
+     *  
+     
+     Persistent store coordinator
+     这是物理数据存储的物理文件和程序之间的联系的桥梁。这个桥梁将负责管理不同对象的上下文。
+     
+     Managed object model
+     这跟一个数据库的框架的概念是一样的。他可以代表一个数据库的桌面或者在创建的数据库里的不同管理对象类型。
+     
+     Managed object context
+     这是程序员和管理对象模式之间的桥梁。
+     
+     Managed object
+     这和表格里的列很相似。我们将管理对象插入到管理对象上下文并保存它。
+     
+     Entity
+     这和数据库的表格相似。
+     
+     Attribute
+     在entity（实体）里定义一个栏。
+     
+     *
+     */
+}
+
 #pragma mark - 音频 声音 声
 
 - (void)musicTest {

@@ -38,6 +38,9 @@
      
      Editor->Edit All in Scope：重命名一个类。但不改源文件。（需要先选中一个类名，比如Car。）
      
+     选中.xcdatamodeld的coredata文件，点击
+     Editor -> Create NSManagedObject Subclass，根据数据库生成类文件
+     
      */
 }
 
