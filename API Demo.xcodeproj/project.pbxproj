@@ -35,6 +35,7 @@
 		D7B3B3CB1AF9E04B009062F5 /* TextKitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B3B3CA1AF9E04B009062F5 /* TextKitViewController.m */; };
 		D7B3B3CE1AF9F590009062F5 /* UserInterfaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B3B3CD1AF9F590009062F5 /* UserInterfaceViewController.m */; };
 		D7B3B3D11AFA0606009062F5 /* ObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B3B3D01AFA0606009062F5 /* ObjectTest.m */; };
+		D7B870D31B43B3CC00574159 /* AnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B870D21B43B3CC00574159 /* AnimationView.m */; };
 		D7D5CE381AF7B293009F5EC5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D5CE371AF7B293009F5EC5 /* main.m */; };
 		D7D5CE3B1AF7B293009F5EC5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D5CE3A1AF7B293009F5EC5 /* AppDelegate.m */; };
 		D7D5CE3E1AF7B293009F5EC5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D5CE3D1AF7B293009F5EC5 /* ViewController.m */; };
@@ -113,6 +114,8 @@
 		D7B3B3CD1AF9F590009062F5 /* UserInterfaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInterfaceViewController.m; sourceTree = "<group>"; };
 		D7B3B3CF1AFA0606009062F5 /* ObjectTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectTest.h; sourceTree = "<group>"; };
 		D7B3B3D01AFA0606009062F5 /* ObjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectTest.m; sourceTree = "<group>"; };
+		D7B870D11B43B3CC00574159 /* AnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationView.h; sourceTree = "<group>"; };
+		D7B870D21B43B3CC00574159 /* AnimationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationView.m; sourceTree = "<group>"; };
 		D7D5CE321AF7B293009F5EC5 /* API Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "API Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7D5CE361AF7B293009F5EC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D7D5CE371AF7B293009F5EC5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -227,6 +230,8 @@
 		D753008D1B01E9A400343855 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D7B870D11B43B3CC00574159 /* AnimationView.h */,
+				D7B870D21B43B3CC00574159 /* AnimationView.m */,
 				D79623D21B26D81000573544 /* SuperCoolSegue.h */,
 				D79623D31B26D81000573544 /* SuperCoolSegue.m */,
 				D7D5CE5B1AF7B2AC009F5EC5 /* TableViewController.h */,
@@ -452,6 +457,7 @@
 				D7D5CE3E1AF7B293009F5EC5 /* ViewController.m in Sources */,
 				D767AFAD1B032DB80015F9A6 /* XcodeTest.m in Sources */,
 				D72034691B084CBB009E4CA4 /* NSDate+RFC1123.m in Sources */,
+				D7B870D31B43B3CC00574159 /* AnimationView.m in Sources */,
 				D7D5CE601AF7B741009F5EC5 /* LogViewController.m in Sources */,
 				D71FAF711B07609800DFF721 /* XMLParser.m in Sources */,
 				D7B3B3CE1AF9F590009062F5 /* UserInterfaceViewController.m in Sources */,

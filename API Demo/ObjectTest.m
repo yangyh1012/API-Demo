@@ -8,6 +8,7 @@
 
 #import "ObjectTest.h"
 #import "NSString+URLEncoding.h"
+#import <CoreMotion/CoreMotion.h>
 
 /*说明：
  
@@ -190,6 +191,14 @@ static ObjectTest *sharedManager = nil;
      */
     NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
     NSLog(@"%@",dict);
+    
+    /*
+     
+     Status bar is initially hidden为YES，
+     View controller-based status bar appearance为NO，
+     将强制隐藏状态条。
+     
+     */
 }
 
 #pragma mark - 计时器
@@ -1957,7 +1966,167 @@ NSString *(^trimWithOtherBlock)(NSString *) = ^(NSString *inputString) {
     [self resumeGameEngine];
 }
 
+#pragma mark - 字体 UIFont
 
+- (void)fontTest {
+    
+    /**
+     *  枚举字体 枚举出设备的所有字体
+     */
+    for (NSString *familyName in [UIFont familyNames]) {
+        
+        NSLog(@"Font Family = %@", familyName);
+    }
+    
+    /**
+     *  在每个family 内部枚举字体名字，比如
+     *  Helvetica Neue 是字体family，HelveticaNeue-Bold 是这个family 中的一个字体名字。
+     */
+    for (NSString *familyName in [UIFont familyNames]) {
+        
+        NSLog(@"Font Family = %@", familyName);
+        for (NSString *fontName in [UIFont fontNamesForFamilyName:familyName]) {
+            
+            NSLog(@"\t%@", fontName);
+        }
+    }
+    
+    /**
+     *  加载字体
+     */
+    UIFont *helveticaBold = [UIFont fontWithName:@"HelveticaNeue-Bold"
+                                            size:12.0f];
+    
+    
+    /**
+     *  从你代码运行的设备上加载系统字体，不管这些字体是什么。
+     */
+    UIFont *font1 = [UIFont systemFontOfSize:12.0f];
+    
+    /**
+     *  粗体
+     */
+    UIFont *font2 = [UIFont boldSystemFontOfSize:12.0f];
+    
+    NSLog(@"%@ %@ %@",helveticaBold,font1,font2);
+}
+
+#pragma mark - 颜色 UIColor
+
+- (void)colorTest {
+    
+    UIColor *steelBlueColor = [UIColor colorWithRed:0.3f green:0.4f blue:0.6f alpha:1.0f];
+    
+    /**
+     *  返回一个CGColorRef 类型的颜色对象，这是一个Core Graphics 颜色引用（Color Reference）对象。
+     */
+    CGColorRef colorRef = [steelBlueColor CGColor];
+    
+    /**
+     *  得到构成颜色对象的组成部分。
+     */
+    const CGFloat *components = CGColorGetComponents(colorRef);
+    
+    /**
+     *  确定我们用来构造颜色（red+green+其他）的组件数量。
+     */
+    NSUInteger componentsCount = CGColorGetNumberOfComponents(colorRef);
+    NSUInteger counter = 0;
+    for (counter = 0; counter < componentsCount; counter++) {
+        
+        NSLog(@"Component %lu = %.02f",(unsigned long)counter + 1,components[counter]);
+    }
+}
+
+#pragma mark - 核心运动 加速计 陀螺仪 CoreMotion.framework
+
+- (void)hardwareTest {
+    
+    /* 1 */
+    CMMotionManager *motionManager = [[CMMotionManager alloc] init];
+    if ([motionManager isAccelerometerAvailable]) {//检测加速计硬件是否可用
+        
+        NSLog(@"Accelerometer is available.");
+    } else{
+        
+        NSLog(@"Accelerometer is not available.");
+    }
+    if ([motionManager isAccelerometerActive]) {//检测加速计硬件是否正在向程序发送更新（即是否是激活的）
+        
+        NSLog(@"Accelerometer is active.");
+    } else {
+        
+        NSLog(@"Accelerometer is not active.");
+    }
+    
+    /* 2 */
+    if ([motionManager isGyroAvailable]) {//检测陀螺仪硬件是否可用
+        
+        NSLog(@"Gryro is available.");
+    } else {
+        
+        NSLog(@"Gyro is not available.");
+    }
+    if ([motionManager isGyroActive]) {//检测陀螺仪是否在向你的程序发送更新（即是否是激活的）
+        
+        NSLog(@"Gryo is active.");
+    } else {
+        
+        NSLog(@"Gryo is not active.");
+    }
+    
+    /* 3 */
+    if ([motionManager isAccelerometerAvailable]){//获取加速器的数据
+        
+        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+        [motionManager startAccelerometerUpdatesToQueue:queue
+         withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
+             
+             NSLog(@"X = %.04f, Y = %.04f, Z = %.04f",
+                   accelerometerData.acceleration.x,
+                   accelerometerData.acceleration.y,
+                   accelerometerData.acceleration.z);
+         }];
+        
+    } else {
+        
+        NSLog(@"Accelerometer is not available.");
+    }
+    
+    /* 4 */
+    if ([motionManager isGyroAvailable]) {//获取陀螺仪的数据
+        
+        if ([motionManager isGyroActive] == NO) {
+            
+            [motionManager setGyroUpdateInterval:1.0f / 40.0f];
+            NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+            [motionManager startGyroUpdatesToQueue:queue
+             withHandler:^(CMGyroData *gyroData, NSError *error) {
+                 
+                 NSLog(@"Gyro Rotation x = %.04f", gyroData.rotationRate.x);
+                 NSLog(@"Gyro Rotation y = %.04f", gyroData.rotationRate.y);
+                 NSLog(@"Gyro Rotation z = %.04f", gyroData.rotationRate.z);
+             }];
+            
+        } else {
+            
+            NSLog(@"Gyro is already active.");
+        }
+    } else {
+        
+        NSLog(@"Gyro isn't available.");
+    }
+}
+
+/**
+ *  检测iOS 设备的摇晃
+ */
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    
+    if (motion == UIEventSubtypeMotionShake){
+        NSLog(@"Detected a shake");
+    }
+}
 
 #pragma mark -
 

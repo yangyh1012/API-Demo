@@ -1491,7 +1491,7 @@
 }
 
 - (void)nibTest {
-    
+
     /**
      *  创建CustomCell类，并继承于UITableViewCell
      */

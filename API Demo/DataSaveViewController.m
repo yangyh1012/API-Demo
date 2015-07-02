@@ -1284,7 +1284,11 @@
      http://blog.csdn.net/q199109106q/article/details/8615661
      
      */
-    UIImage *image2 = [[UIImage imageNamed:@"test"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16) resizingMode:UIImageResizingModeStretch];
+    CGFloat top = 25; // 顶端盖高度
+    CGFloat bottom = 25 ; // 底端盖高度
+    CGFloat left = 10; // 左端盖宽度
+    CGFloat right = 10; // 右端盖宽度
+    UIImage *image2 = [[UIImage imageNamed:@"test"] resizableImageWithCapInsets:UIEdgeInsetsMake(top, left, bottom, right) resizingMode:UIImageResizingModeStretch];
     
     NSLog(@"%@ %@",image1,image2);
     
