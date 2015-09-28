@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D70B59591BA40A0B000C4DA3 /* KSPlistFileHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = D70B59581BA40A0B000C4DA3 /* KSPlistFileHandle.m */; };
+		D70B595C1BA40A1C000C4DA3 /* KSSoundRecordTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = D70B595B1BA40A1C000C4DA3 /* KSSoundRecordTransition.m */; };
 		D711D9ED1B04CC8E00A275A4 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D711D9EC1B04CC8E00A275A4 /* libsqlite3.dylib */; };
+		D71513761B8C0BA500EBD9A3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D71513781B8C0BA500EBD9A3 /* InfoPlist.strings */; };
+		D71EDEE61B47D9CC00E5075A /* NSObject+MKBlockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = D71EDEE51B47D9CC00E5075A /* NSObject+MKBlockTimer.m */; };
 		D71FAF6E1B07600100DFF721 /* NotesTestData.xml in Resources */ = {isa = PBXBuildFile; fileRef = D71FAF6D1B07600100DFF721 /* NotesTestData.xml */; };
 		D71FAF711B07609800DFF721 /* XMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D71FAF701B07609800DFF721 /* XMLParser.m */; };
 		D72034451B08352D009E4CA4 /* jsonTestData.json in Resources */ = {isa = PBXBuildFile; fileRef = D72034441B08352D009E4CA4 /* jsonTestData.json */; };
@@ -30,6 +34,8 @@
 		D77E1A2C1B15F004000EE0C0 /* ThreadAndGCD.m in Sources */ = {isa = PBXBuildFile; fileRef = D77E1A2B1B15F004000EE0C0 /* ThreadAndGCD.m */; };
 		D77F85691B032321008E4380 /* AnimateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D77F85681B032321008E4380 /* AnimateViewController.m */; };
 		D78D54FE1B2D49CA006C4200 /* controllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D78D54FD1B2D49CA006C4200 /* controllerViewController.m */; };
+		D792EB911BAFA7AD0030A039 /* KSDataBaseUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = D792EB901BAFA7AD0030A039 /* KSDataBaseUpdate.m */; };
+		D792EB931BAFAA010030A039 /* initData.plist in Resources */ = {isa = PBXBuildFile; fileRef = D792EB921BAFAA010030A039 /* initData.plist */; };
 		D79623D41B26D81000573544 /* SuperCoolSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = D79623D31B26D81000573544 /* SuperCoolSegue.m */; };
 		D7B308331B31754200863361 /* autoLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B308321B31754200863361 /* autoLayoutViewController.m */; };
 		D7B3B3CB1AF9E04B009062F5 /* TextKitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B3B3CA1AF9E04B009062F5 /* TextKitViewController.m */; };
@@ -59,7 +65,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D70B59571BA40A0A000C4DA3 /* KSPlistFileHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSPlistFileHandle.h; sourceTree = "<group>"; };
+		D70B59581BA40A0B000C4DA3 /* KSPlistFileHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSPlistFileHandle.m; sourceTree = "<group>"; };
+		D70B595A1BA40A1C000C4DA3 /* KSSoundRecordTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSSoundRecordTransition.h; sourceTree = "<group>"; };
+		D70B595B1BA40A1C000C4DA3 /* KSSoundRecordTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSSoundRecordTransition.m; sourceTree = "<group>"; };
 		D711D9EC1B04CC8E00A275A4 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		D71513771B8C0BA500EBD9A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D71EDEE41B47D9CC00E5075A /* NSObject+MKBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MKBlockTimer.h"; sourceTree = "<group>"; };
+		D71EDEE51B47D9CC00E5075A /* NSObject+MKBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MKBlockTimer.m"; sourceTree = "<group>"; };
 		D71FAF6D1B07600100DFF721 /* NotesTestData.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = NotesTestData.xml; sourceTree = "<group>"; };
 		D71FAF6F1B07609800DFF721 /* XMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLParser.h; sourceTree = "<group>"; };
 		D71FAF701B07609800DFF721 /* XMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLParser.m; sourceTree = "<group>"; };
@@ -104,6 +117,9 @@
 		D77F85681B032321008E4380 /* AnimateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimateViewController.m; sourceTree = "<group>"; };
 		D78D54FC1B2D49CA006C4200 /* controllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controllerViewController.h; sourceTree = "<group>"; };
 		D78D54FD1B2D49CA006C4200 /* controllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = controllerViewController.m; sourceTree = "<group>"; };
+		D792EB8F1BAFA7AD0030A039 /* KSDataBaseUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDataBaseUpdate.h; sourceTree = "<group>"; };
+		D792EB901BAFA7AD0030A039 /* KSDataBaseUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDataBaseUpdate.m; sourceTree = "<group>"; };
+		D792EB921BAFAA010030A039 /* initData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = initData.plist; sourceTree = "<group>"; };
 		D79623D21B26D81000573544 /* SuperCoolSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperCoolSegue.h; sourceTree = "<group>"; };
 		D79623D31B26D81000573544 /* SuperCoolSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperCoolSegue.m; sourceTree = "<group>"; };
 		D7B308311B31754200863361 /* autoLayoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autoLayoutViewController.h; sourceTree = "<group>"; };
@@ -177,10 +193,14 @@
 			isa = PBXGroup;
 			children = (
 				D720344F1B084CBB009E4CA4 /* MKNetworkKit */,
+				D71FAF6F1B07609800DFF721 /* XMLParser.h */,
+				D71FAF701B07609800DFF721 /* XMLParser.m */,
 				D72034471B083B73009E4CA4 /* NSNumber+Message.h */,
 				D72034481B083B73009E4CA4 /* NSNumber+Message.m */,
 				D72034491B083B73009E4CA4 /* NSString+URLEncoding.h */,
 				D720344A1B083B73009E4CA4 /* NSString+URLEncoding.m */,
+				D71EDEE41B47D9CC00E5075A /* NSObject+MKBlockTimer.h */,
+				D71EDEE51B47D9CC00E5075A /* NSObject+MKBlockTimer.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -253,8 +273,6 @@
 		D753008E1B01E9AF00343855 /* NS */ = {
 			isa = PBXGroup;
 			children = (
-				D71FAF6F1B07609800DFF721 /* XMLParser.h */,
-				D71FAF701B07609800DFF721 /* XMLParser.m */,
 				D7B3B3CF1AFA0606009062F5 /* ObjectTest.h */,
 				D7B3B3D01AFA0606009062F5 /* ObjectTest.m */,
 				D75D72D41B04FCF60087B96B /* SecurityTest.h */,
@@ -267,6 +285,8 @@
 				D7D5CE5F1AF7B741009F5EC5 /* LogViewController.m */,
 				D7B3B3C91AF9E04B009062F5 /* TextKitViewController.h */,
 				D7B3B3CA1AF9E04B009062F5 /* TextKitViewController.m */,
+				D70B59571BA40A0A000C4DA3 /* KSPlistFileHandle.h */,
+				D70B59581BA40A0B000C4DA3 /* KSPlistFileHandle.m */,
 				D75BA9781B00862400C4EB78 /* DataSaveViewController.h */,
 				D75BA9791B00862400C4EB78 /* DataSaveViewController.m */,
 			);
@@ -282,6 +302,18 @@
 				D75BA9761B00802F00C4EB78 /* iOSBookTest.m */,
 			);
 			name = Tool;
+			sourceTree = "<group>";
+		};
+		D792EB8E1BAFA7540030A039 /* deprecated */ = {
+			isa = PBXGroup;
+			children = (
+				D792EB921BAFAA010030A039 /* initData.plist */,
+				D792EB8F1BAFA7AD0030A039 /* KSDataBaseUpdate.h */,
+				D792EB901BAFA7AD0030A039 /* KSDataBaseUpdate.m */,
+				D70B595A1BA40A1C000C4DA3 /* KSSoundRecordTransition.h */,
+				D70B595B1BA40A1C000C4DA3 /* KSSoundRecordTransition.m */,
+			);
+			name = deprecated;
 			sourceTree = "<group>";
 		};
 		D7D5CE291AF7B293009F5EC5 = {
@@ -319,6 +351,7 @@
 				D753008E1B01E9AF00343855 /* NS */,
 				D753008D1B01E9A400343855 /* UI */,
 				D72034461B083B2D009E4CA4 /* Utils */,
+				D792EB8E1BAFA7540030A039 /* deprecated */,
 			);
 			path = "API Demo";
 			sourceTree = "<group>";
@@ -329,6 +362,7 @@
 				D7D5CE361AF7B293009F5EC5 /* Info.plist */,
 				D7D5CE371AF7B293009F5EC5 /* main.m */,
 				D72034771B084EFC009E4CA4 /* PrefixHeader.pch */,
+				D71513781B8C0BA500EBD9A3 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -399,6 +433,11 @@
 				TargetAttributes = {
 					D7D5CE311AF7B293009F5EC5 = {
 						CreatedOnToolsVersion = 6.3.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
 					};
 					D7D5CE4A1AF7B293009F5EC5 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -413,6 +452,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = D7D5CE291AF7B293009F5EC5;
 			productRefGroup = D7D5CE331AF7B293009F5EC5 /* Products */;
@@ -431,8 +471,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7D5CE411AF7B293009F5EC5 /* Main.storyboard in Resources */,
+				D71513761B8C0BA500EBD9A3 /* InfoPlist.strings in Resources */,
 				D7D5CE461AF7B293009F5EC5 /* LaunchScreen.xib in Resources */,
 				D72034451B08352D009E4CA4 /* jsonTestData.json in Resources */,
+				D792EB931BAFAA010030A039 /* initData.plist in Resources */,
 				D7D5CE431AF7B293009F5EC5 /* Images.xcassets in Resources */,
 				D71FAF6E1B07600100DFF721 /* NotesTestData.xml in Resources */,
 			);
@@ -463,12 +505,15 @@
 				D7B3B3CE1AF9F590009062F5 /* UserInterfaceViewController.m in Sources */,
 				D7B3B3CB1AF9E04B009062F5 /* TextKitViewController.m in Sources */,
 				D720344B1B083B73009E4CA4 /* NSNumber+Message.m in Sources */,
+				D70B595C1BA40A1C000C4DA3 /* KSSoundRecordTransition.m in Sources */,
 				D77E1A2C1B15F004000EE0C0 /* ThreadAndGCD.m in Sources */,
+				D70B59591BA40A0B000C4DA3 /* KSPlistFileHandle.m in Sources */,
 				D7D5CE3B1AF7B293009F5EC5 /* AppDelegate.m in Sources */,
 				D78D54FE1B2D49CA006C4200 /* controllerViewController.m in Sources */,
 				D79623D41B26D81000573544 /* SuperCoolSegue.m in Sources */,
 				D720346C1B084CBB009E4CA4 /* UIAlertView+MKNetworkKitAdditions.m in Sources */,
 				D7D5CE381AF7B293009F5EC5 /* main.m in Sources */,
+				D792EB911BAFA7AD0030A039 /* KSDataBaseUpdate.m in Sources */,
 				D7B308331B31754200863361 /* autoLayoutViewController.m in Sources */,
 				D720346D1B084CBB009E4CA4 /* UIImageView+MKNetworkKitAdditions.m in Sources */,
 				D75BA9771B00802F00C4EB78 /* iOSBookTest.m in Sources */,
@@ -476,6 +521,7 @@
 				D7E56F711B2C002F00574DE0 /* FoundationTest.m in Sources */,
 				D720346B1B084CBB009E4CA4 /* NSString+MKNetworkKitAdditions.m in Sources */,
 				D7B3B3D11AFA0606009062F5 /* ObjectTest.m in Sources */,
+				D71EDEE61B47D9CC00E5075A /* NSObject+MKBlockTimer.m in Sources */,
 				D7D5CE5D1AF7B2AC009F5EC5 /* TableViewController.m in Sources */,
 				D75D72D61B04FCF60087B96B /* SecurityTest.m in Sources */,
 				D753008C1B01E23F00343855 /* CollectionViewController.m in Sources */,
@@ -506,6 +552,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		D71513781B8C0BA500EBD9A3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D71513771B8C0BA500EBD9A3 /* Base */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		D7D5CE3F1AF7B293009F5EC5 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -619,6 +673,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				INFOPLIST_FILE = "API Demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = "-Wall";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;

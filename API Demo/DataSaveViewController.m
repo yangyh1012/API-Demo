@@ -72,6 +72,18 @@
     NSBundle *bundle = [NSBundle mainBundle];
     NSLog(@"%@",bundle);//DLog
     
+    /**
+     *  使用工程中Resources目录下的文件
+     */
+    NSString *myFilePath = [bundle pathForResource:@"f" ofType:@"txt"];
+    NSLog(@"%@",myFilePath);//DLog
+    
+    /**
+     *  使用NSHomeDirectory()可以获取tmp目录
+     */
+    NSString *fileName = [NSHomeDirectory() stringByAppendingPathComponent:@"tmp/myFile.txt"];
+    NSLog(@"%@",fileName);
+    
     /*说明：Documents目录
      该目录用于存储非常大的文件或需要非常频繁更新的数据，能够进行iTunes或iCloud的备份。
      
@@ -212,6 +224,35 @@
     NSFileHandle *fileHandle = [NSFileHandle fileHandleForUpdatingAtPath:filePath];
     NSLog(@"fileHandle = %@", fileHandle);
 }
+
+/**
+ *  将数据写到应用程序的Documents目录
+ */
+- (BOOL)writeApplicationData:(NSData *)data toFile:(NSString *)fileName {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    if (!documentsDirectory) {
+        
+        NSLog(@"Documents directory not found!");
+        return NO;
+    }
+    NSString *appFile = [documentsDirectory stringByAppendingPathComponent:fileName];
+    return ([data writeToFile:appFile atomically:YES]);
+}
+
+/**
+ *  从应用程序的Documents目录读取数据
+ */
+- (NSData *)applicationDataFromFile:(NSString *)fileName {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *appFile = [documentsDirectory stringByAppendingPathComponent:fileName];
+    NSData *myData = [[NSData alloc] initWithContentsOfFile:appFile];
+    return myData;
+}
+
 
 //========================================================================================================
 
@@ -551,6 +592,10 @@
             NSString *stringToWrite = @"Hello, World!";
             
             /* Write the data */
+            
+            /**
+             *  使用NSUnicodeStringEncoding创建文本文件，夹带汉字
+             */
             [fileHandle writeData:[stringToWrite dataUsingEncoding:NSUTF8StringEncoding]];
             
             NSLog(@"Wrote to the file.");
@@ -682,6 +727,46 @@
     
 }
 
+#pragma mark - userDefault读取数据
+
+- (void)userDefaultTest {
+    
+    /*说明：读取iPhone设置内容
+     
+     */
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    /*说明：根据键取出布尔值
+     
+     */
+    [defaults boolForKey:@"bool"];
+    
+    /*说明：根据键取出NSInteger值
+     
+     */
+    [defaults integerForKey:@"integer"];
+    
+    /*说明：根据键取出float值
+     
+     */
+    [defaults floatForKey:@"float"];
+    
+    /*说明：根据键取出double类型值
+     
+     */
+    [defaults doubleForKey:@"double"];
+    
+    /*说明：根据键取出NSString类型值
+     
+     */
+    [defaults stringForKey:@"string"];
+    
+    /*说明：根据键取出id类型值
+     
+     */
+    [defaults objectForKey:@"object"];
+}
+
 #pragma mark - 持久化方式（本地存储）属性列表。
 
 /*说明：属性列表。
@@ -709,6 +794,16 @@
      atomically:参数的值为BOOL类型，用于通知Cocoa是否应该首先将文件内容保存在临时文件中，当文件成功保存后，再将该临时文件和原始文件交换。
      
      */
+    
+    //读取工程目录下的plist文件
+    NSString *plistPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"initData.plist"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL dbexits = [fileManager fileExistsAtPath:plistPath];
+    if (dbexits) {
+    
+        NSMutableArray *array = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
+        NSLog(@"%@",array);
+    }
 }
 
 /*说明：在documents目录下创建某个文件
@@ -842,6 +937,9 @@
  而且每个成员变量应该是基本数据类型或
  都是实现NSCoding协议的某个类的实例。
  
+ archivedDataWithRootObject
+ unarchiveObjectWithData
+ 
  */
 - (void)duixiangguidangSave2 {
     
@@ -927,8 +1025,13 @@
     /*说明：此方法将给你一个编码器对象.此编码器对象你可以像一个词典那样使用,可以简单的通过你所选择的键值
      存储数值进去.
      
-    [aCoder encodeObject:_date forKey:@"date"];
-    [aCoder encodeObject:_content forKey:@"content"];
+     [aCoder encodeObject:_date forKey:@"date"];
+     [aCoder encodeObject:_content forKey:@"content"];
+     
+     [coder encodeObject:name forKey:@"name"];
+     [coder encodeInt:magicNumber forKey:@"magicNumber"];
+     [coder encodeFloat:shoeSize forKey:@"shoeSize"];
+     [coder encodeObject:subThingies forKey:@"subThingies"];
     */
 }
 
@@ -939,9 +1042,13 @@
     /*说明：当你使用NSKeyedUnarchiver对象反归档你的对象时,此方法将被调用.你可以很简单的通过传递进来的
      NSCoder对象获取你回的数值
     
-    self.date = [aDecoder decodeObjectForKey:@"date"];
-    self.content = [aDecoder decodeObjectForKey:@"content"];
+     self.date = [aDecoder decodeObjectForKey:@"date"];
+     self.content = [aDecoder decodeObjectForKey:@"content"];
     
+     self.name = [decoder decodeObjectForKey:@"name"];
+     self.magicNumber = [decoder decodeIntForKey:@"magicNumber"];
+     self.shoeSize = [decoder decodeFloatForKey:@"shoeSize"];
+     self.subThingies = [decoder decodeObjectForKey:@"subThingies"];
     */
         
     }
@@ -1064,7 +1171,15 @@
     */
 }
 
-
+- (void)sqlite3Test {
+    
+    //SQLLite3模糊查询
+//    int flag = sqlite3_prepare_v2(sqlDB, "SELECT * FROM Books WHERE bookName LIKE ?", -1, &st, nil);
+//    if (flag == SQLITE_OK) {
+//        
+//        sqlite3_bind_text(st, 1, [[NSString stringWithFormat:@"%%%@%%",namePart]UTF8String], -1, nil);
+//    }
+}
 
 #pragma mark - 持久化方式（本地存储）Core Data。
 

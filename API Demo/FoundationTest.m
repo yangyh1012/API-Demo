@@ -90,7 +90,7 @@
      可变字符串：
      
      NSMutableString。
-     stringWithCapacity：字符串的初始容量。
+     stringWithCapacity：创建具有一定容量的字符串。
      appendString：末尾添加字符串。
      appendFormat：末尾添加格式化的字符串。
      deleteCharactersInRange：删除某个字符串。
@@ -128,9 +128,9 @@
      NSArray
      arrayWithObjects：创建包含多个对象的数组。
      count：数组所包含的对象个数。
-     objectAtIndex：数组指定位置的对象。
-     componentsSeparatedByString：分割数组。
-     componentsJoineByString：组合数组。
+     objectAtIndex：获得特定索引处的对象。
+     componentsSeparatedByString：使用特定字符串切分NSArray。
+     componentsJoineByString：使用特定字符串将NSArray合并成一串字符串。
      *
      */
     
@@ -140,7 +140,7 @@
      
      NSMutaleArray
      arrayWithCapacity：创建具有初始容量的数组。
-     addObject：添加对象。
+     addObject：在数据末尾添加对象。
      removeObjectAtIndex：删除某个位置的对象。
      *
      */
@@ -150,9 +150,9 @@
      枚举:
      
      NSEnumerator
-     objectEnumerator
-     reverseObjectEnumerator
-     nextObject
+     objectEnumerator：转成枚举
+     reverseObjectEnumerator：从后向前浏览集合
+     nextObject：获取枚举的下一个对象
      *
      */
     yyhArrayInit(array)
@@ -188,8 +188,8 @@
      字典：
      
      NSDictionary
-     dictionaryWithObjectsAndKeys
-     objectForKey
+     dictionaryWithObjectsAndKeys：创建字典
+     objectForKey：通过key获取字典中的值
      *
      */
     
@@ -198,9 +198,9 @@
      可变字典：
      
      NSMutableDictionary
-     dictionaryWithCapacity
-     setObject:forKey:
-     removeObjectForKey
+     dictionaryWithCapacity：创建具有一定容量的字典
+     setObject:forKey：给字典添加元素
+     removeObjectForKey：从字典中删除对象
      *
      */
     
@@ -291,6 +291,28 @@
     /* Convert an unsigned integer inside an NSNumber to NSString */
     NSString *stringValueOfNumber = [NSString stringWithFormat:@"%lu",(unsigned long)[unsignedNumber unsignedIntegerValue]];
     NSLog(@"String from Number = %@", stringValueOfNumber);
+    
+    NSNumber *intNumber1 = [NSNumber numberWithInteger:123];
+    NSNumber *intNumber2 = @123;
+    
+    NSNumber *charNumber1 = [NSNumber numberWithChar:'C'];
+    NSNumber *charNumber2 = @'C';
+    
+    NSArray *array1 = [NSArray arrayWithObjects:@"123",@123,@'C', nil];
+    NSArray *array2 = @[@"123",@'C',@123];
+    
+    NSDictionary *dictionary1 = [NSDictionary dictionaryWithObjectsAndKeys:@"123",@"111",@"345",@"222", nil];
+    NSDictionary *dictionary2 = @{@"1":@213123, @"2":@"34445", @"3":intNumber1, @"4":intNumber2, @"5":charNumber1, @"6":charNumber2};
+    
+    NSMutableArray *mutableArray1 = [array1 mutableCopy];
+    NSNumber *thirdNum = [array2 objectAtIndex:2];
+    thirdNum = array1[1];
+    NSString *secondStr = [dictionary1 objectForKey:@"222"];
+    secondStr = dictionary2[@"2"];
+    
+    NSLog(@"thirdNum:%@",thirdNum);
+    NSLog(@"secondStr:%@",secondStr);
+    NSLog(@"mutableArray1:%@",mutableArray1);
 }
 
 #pragma mark - NSSet
@@ -405,7 +427,7 @@
      *
      */
     NSValue *value;
-    CGRect rect = {1,1,3,4};
+    CGRect rect = {{1,1},{3,4}};
     value = [NSValue value:&rect withObjCType:@encode(CGRect)];
     CGRect rect3;
     [value getValue:&rect3];

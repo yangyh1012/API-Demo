@@ -24,6 +24,8 @@
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //TODO: do something 加入todo标识
 }
 
 - (void)didReceiveMemoryWarning {

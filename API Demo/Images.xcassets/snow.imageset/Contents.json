@@ -1,9 +1,23 @@
 {
   "images" : [
     {
+      "resizing" : {
+        "mode" : "9-part",
+        "center" : {
+          "mode" : "fill",
+          "width" : 17,
+          "height" : 25
+        },
+        "capInsets" : {
+          "bottom" : 0,
+          "top" : 0,
+          "right" : 0,
+          "left" : 0
+        }
+      },
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "snow.png"
+      "filename" : "snow.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",

@@ -37,10 +37,15 @@
     
     /**
      *  在后台创建了一个线程
-     *
+     *  主要进行逻辑上处理
      */
     [self performSelectorInBackground:@selector(firstCounter)
                            withObject:nil];
+    
+    /**
+     *  主要进行界面UI上的处理
+     */
+    [self performSelectorOnMainThread:@selector(printString:) withObject:nil waitUntilDone:YES];
     
     /**
      停止线程

@@ -9,6 +9,7 @@
 #import "ObjectTest.h"
 #import "NSString+URLEncoding.h"
 #import <CoreMotion/CoreMotion.h>
+#import <objc/runtime.h>
 
 /*说明：
  
@@ -130,46 +131,6 @@ static ObjectTest *sharedManager = nil;
     NSLog(@"Fragment: %@", [url fragment]);
 }
 
-#pragma mark - userDefault读取数据
-
-- (void)userDefaultTest {
- 
-    /*说明：读取iPhone设置内容
-     
-     */
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    /*说明：根据键取出布尔值
-     
-     */
-    [defaults boolForKey:@"bool"];
-    
-    /*说明：根据键取出NSInteger值
-     
-     */
-    [defaults integerForKey:@"integer"];
-    
-    /*说明：根据键取出float值
-     
-     */
-    [defaults floatForKey:@"float"];
-    
-    /*说明：根据键取出double类型值
-     
-     */
-    [defaults doubleForKey:@"double"];
-    
-    /*说明：根据键取出NSString类型值
-     
-     */
-    [defaults stringForKey:@"string"];
-    
-    /*说明：根据键取出id类型值
-     
-     */
-    [defaults objectForKey:@"object"];
-}
-
 #pragma mark - plist配置文件
 
 /*说明：配置文件设置
@@ -191,6 +152,12 @@ static ObjectTest *sharedManager = nil;
      */
     NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
     NSLog(@"%@",dict);
+    
+    /**
+     *  获得info.plist文件
+     */
+    NSDictionary *infoDict = [bundle infoDictionary];
+    NSLog(@"%@",infoDict);
     
     /*
      
@@ -533,10 +500,11 @@ const NSString *ResultOfAppendingTwoStringsNotification = @"ResultOfAppendingTwo
      forKeyPath是被关注对象的属性。
      options是为属性变化设置的选项，本例中被设定为 NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld，把属性新旧两个值都传递给观察者。
      context参数是上下文内容，类型为(void*)（C语言形式的任何指针类型），因此，如果传递“空”，应该是NULL而非nil。
-     
+     removeObserver:forKeyPath:
      那么在Watcher对象中，看observeValueForKeyPath方法。
      
      */
+    
 }
 
 /*说明：
@@ -552,6 +520,8 @@ const NSString *ResultOfAppendingTwoStringsNotification = @"ResultOfAppendingTwo
                        context:(void*)context {
     
     NSLog(@"Property '%@' of object '%@' changed: %@ context: %@",keyPath,object,change,context);
+    NSLog(@"name old value:%@ , new value:%@",
+          [change objectForKey:NSKeyValueChangeOldKey],[change objectForKey:NSKeyValueChangeNewKey]);
 }
 
 #pragma mark - NSPredicate谓词
@@ -1114,7 +1084,7 @@ const NSString *ResultOfAppendingTwoStringsNotification = @"ResultOfAppendingTwo
     UIImageView *imageView = [[UIImageView alloc] init];
     
     /**
-     *  获得沙盒目录下的缓存目录，这个目录位于Library → Caches
+     *  获得沙盒目录下的缓存目录，这个目录位于Library → Caches Caches目录
      */
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachesDirectory = paths[0];
@@ -2038,6 +2008,18 @@ NSString *(^trimWithOtherBlock)(NSString *) = ^(NSString *inputString) {
     }
 }
 
+/**
+ *  通过颜色十六进制字串生成颜色对象的方法
+ */
+UIColor* UIColorFromHex(NSInteger colorInHex) {
+    
+    // colorInHex should be value like 0xFFFFFF
+    return [UIColor colorWithRed:((float) ((colorInHex & 0xFF0000) >> 16)) / 0xFF
+                           green:((float) ((colorInHex & 0xFF00)   >> 8))  / 0xFF
+                            blue:((float)  (colorInHex & 0xFF))            / 0xFF
+                           alpha:1.0];
+}
+
 #pragma mark - 核心运动 加速计 陀螺仪 CoreMotion.framework
 
 - (void)hardwareTest {
@@ -2126,6 +2108,61 @@ NSString *(^trimWithOtherBlock)(NSString *) = ^(NSString *inputString) {
     if (motion == UIEventSubtypeMotionShake){
         NSLog(@"Detected a shake");
     }
+}
+
+#pragma mark - Method Swizzling
+
+/**
+ *  加入#import <objc/runtime.h>  
+ */
+- (void)methodSwizzlingTest {
+    
+    Method ori_Method =  class_getInstanceMethod([NSArray class], @selector(lastObject));
+    Method my_Method = class_getInstanceMethod([NSArray class], @selector(myLastObject));
+    method_exchangeImplementations(ori_Method, my_Method);
+    
+    NSArray *array1 = @[@"0",@"1",@"2",@"3"];
+    NSString *string = [array1 lastObject];
+    NSLog(@"TEST RESULT : %@",string);
+    
+    //然后NSArray的lastObject方法的实现与myLastObject方法的实现互换。
+    
+    
+}
+
+/**
+ *  给NSArray添加一个分类
+ *  NSArray+Swizzle
+ *  然后写上下面这个方法
+ */
+- (id)myLastObject {
+    
+    id ret = [self myLastObject];
+    NSLog(@"**********  myLastObject *********** ");
+    return ret;
+}
+
+- (id)lastObject {
+    
+    //实现的内容
+    
+    return self;
+}
+
+//================================== 互换前和互换后的分界线 ==================================
+
+- (id)x_myLastObject {
+    
+    //实现的内容
+    
+    return self;
+}
+
+- (id)x_lastObject {
+    
+    id ret = [self x_myLastObject];
+    NSLog(@"**********  myLastObject *********** ");
+    return ret;
 }
 
 #pragma mark -

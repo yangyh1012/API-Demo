@@ -43,9 +43,27 @@
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     /**
+     *  使UIScrollView达到边缘停止拖动
+     */
+    self.tableView.bounces = NO;
+    
+    /**
+     *  去掉UITableView多余的单元格线
+     */
+    UIView *view =[ [UIView alloc]init];
+    view.backgroundColor = [UIColor clearColor];
+    [self.tableView setTableFooterView:view];
+    
+    /**
      *  添加背景图片
      */
     [[self tableView] setBackgroundView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg_sand.png"]]];
+    
+    /**
+     *  UITableViewController默认的会在viewWillAppear的时候，清空所有选中cell，
+     *  我们可以通过设置self.clearsSelectionOnViewWillAppear = NO，来禁用该功能
+     */
+    self.clearsSelectionOnViewWillAppear = NO;
     
     /**
      
@@ -88,8 +106,19 @@ static NSString *SectionOddNumbers = @"Odd Numbers";
 static NSString *SectionEvenNumbers = @"Even Numbers";
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    /**
+     *  让滚动条闪动一次，从而提示用户该控件是可以滑动的。
+     */
+    [self.tableView flashScrollIndicators];
 }
 
 /**
@@ -281,6 +310,13 @@ static NSString *SectionEvenNumbers = @"Even Numbers";
     cell.indentationLevel = indexPath.row;
     cell.indentationWidth = 10.0f;
     
+    /**
+     *  更改UITableView的选中颜色
+     */
+    UIView *bgColorView = [[UIView alloc] init];
+    [bgColorView setBackgroundColor:[UIColor colorWithRed:153.0/255 green:205.0/255 blue:255.0/255 alpha:1.0]];
+    [cell setSelectedBackgroundView:bgColorView];
+    
     return cell;
 }
 
@@ -325,6 +361,17 @@ static NSString *SectionEvenNumbers = @"Even Numbers";
 }
 
 #pragma mark - Table view delegate
+
+/**
+ *  选择单元格
+ */
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    /**
+     *  单元格更新
+     */
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+}
 
 /*说明：表头的重用
  

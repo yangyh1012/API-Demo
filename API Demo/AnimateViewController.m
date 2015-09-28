@@ -29,6 +29,46 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - block 动画
+
+- (void)blockAnimationTest {
+    
+    UIView *daysView;
+    UIView *_lionImage;
+    UIView *_downLionImage;
+    CGPoint point;
+    
+    
+    [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
+        daysView.alpha = 1.0f;
+        daysView.transform = CGAffineTransformMakeScale(1.05f, 1.05f);
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            
+            daysView.transform = CGAffineTransformIdentity;
+            daysView.frame = CGRectMake(point.x - 150.0/2, point.y + 10.0, 150, 100);
+        } completion:nil];
+    }];
+    
+    [UIView animateWithDuration:5.0 delay:0.0 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
+        
+        [_lionImage setFrame:CGRectMake(185, 347, 115, 76)];
+        [_lionImage setAlpha:0.0];
+    } completion:nil];
+    
+    [UIView animateWithDuration:5.0 delay:4.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+        
+        [_downLionImage setFrame:CGRectMake(94, 70, 115, 76)];
+    } completion:^(BOOL finished){
+        
+        [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            
+            _downLionImage.transform = CGAffineTransformMakeScale(2.05f, 2.05f);
+        } completion:nil];
+    }];
+}
+
 #pragma mark - 粒子系统
 
 /**

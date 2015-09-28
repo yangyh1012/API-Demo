@@ -37,6 +37,12 @@
      */
     [self.view window];
     
+    /**
+     *  设置视图的背景图片
+     */
+    UIImage *image;
+    self.view.layer.contents = (id)image.CGImage;
+    
     /*说明：
      状态栏占用20点，
      导航栏（或工具栏）占用44点，
@@ -358,6 +364,16 @@
      
      */
     [self.view addSubview:button];
+    
+    //按钮宽度随着标题自适应
+    UIButton *button2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    button2.frame = CGRectMake(20, 20, 5000, 60);
+    [button2 setBackgroundColor:[UIColor blueColor]];
+    [button2 setTitle:@"测试按钮能不能随着标题文字变多而变宽" forState:UIControlStateNormal];
+    [button2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    float btnWidth = button2.titleLabel.frame.size.width;
+    button2.frame = CGRectMake(20, 20, btnWidth, 60);
+    [self.view addSubview:button2];
 }
 
 - (void)buttonIsTapped:(UIButton *)paramSender {
@@ -472,6 +488,12 @@
     label.text = @"iOS 6 Programming Cookbook";
     label.font = [UIFont boldSystemFontOfSize:14.0f];
     
+    /**
+     *  UILabel换行
+     */
+    [label setText:@"请先上传\
+     语法"];
+
     /**
      * 
      指定了标签中的文本最多可以显示几行
@@ -699,9 +721,23 @@
      *  开启分页
      */
     CGRect scrollViewRect = self.view.bounds;
+    
+    //设置UIScrollView是否翻页滚动
     scrollView.pagingEnabled = YES;
+    
+    //设置滚动正文的范围
     scrollView.contentSize = CGSizeMake(scrollViewRect.size.width * 3.0f, scrollViewRect.size.height);
     
+    //显示水平方向滚动条
+    scrollView.showsHorizontalScrollIndicator = NO;
+    
+    //显示垂直方向滚动条
+    scrollView.showsVerticalScrollIndicator = NO;
+    
+    //是否滚动到顶部
+    scrollView.scrollsToTop = NO;
+
+    //设置代理
     scrollView.delegate = self;
     
     /**
@@ -1137,6 +1173,11 @@
     myTextView.text = @"Some text here...";
     myTextView.font = [UIFont systemFontOfSize:16.0f];
     
+    /**
+     *  UITextView换行
+     */
+    myTextView.text = @"开始识别前请先点击“上传”按钮上传语法。\n\t上传内容为：\n\t";
+    
     yyhViewAddSubview(myTextView);
 }
 
@@ -1337,6 +1378,37 @@
      */
 }
 
+/**
+ *  关闭键盘的三种方法
+ */
+- (void)closeKeyboard {
+    
+    //在IBAction的点击方法中加入
+    UITextField *nameField;
+    UITextField *numberField;
+    [nameField resignFirstResponder];
+    [numberField resignFirstResponder];
+    
+//=====================================================================
+    
+    //在视图中，加入方法：
+    //-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+//    UITouch *touch = [[event allTouches] anyObject];
+//    if(touch.tapCount >= 1){
+//        
+//        [nameField resignFirstResponder];
+//        [numberField resignFirstResponder];
+//    }
+    
+//=====================================================================
+    
+    //在视图中，加入方法：
+    //-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+    [self.view endEditing:YES];
+}
+
+
+
 - (void)viewWillAppear:(BOOL)animated {
     
     //注册键盘出现通知
@@ -1419,7 +1491,7 @@
     CGSize keyboardSize = [value CGRectValue].size;
     NSLog(@"%.f",keyboardSize.height);
     
-    //self.textView.contentInset = UIEdgeInsetsMake(0, 0,keyboardSize.height, 0);
+    //self.tableView.contentInset = UIEdgeInsetsMake(0, 0,keyboardSize.height, 0);
 }
 
 /**
@@ -1427,7 +1499,7 @@
  */
 - (void)keyboardDidHide1:(NSNotification *)notification {
     
-    //self.textView.contentInset = UIEdgeInsetsZero;
+    //self.tableView.contentInset = UIEdgeInsetsZero;
 }
 
 #pragma mark - 状态栏 StatusBar
@@ -1678,7 +1750,7 @@
 
 - (void)handlePinches:(UIPinchGestureRecognizer *)paramSender {
     
-    CGFloat currentScale;
+    CGFloat currentScale = 0.0;
     if (paramSender.state == UIGestureRecognizerStateEnded) {
         
         currentScale = paramSender.scale;
