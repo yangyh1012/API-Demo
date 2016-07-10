@@ -45,7 +45,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSLog(@"%@",paths);//DLog
 
-    
+    NSLog(@"%@",@[@"1",@"2"]);
 }
 
 /**
